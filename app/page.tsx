@@ -2,64 +2,110 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <>
+     <div className="mx-auto h-[600px] max-w-[960px] overflow-hidden rounded-xl">
+      <iframe
+        src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+        className="h-full w-full border-none"
+        allow="autoplay; fullscreen; camera; microphone; gamepad; accelerometer; gyroscope; clipboard-write"
+        scrolling="no"
+        allowFullScreen
+      ></iframe>
+    </div>
+
+    <div className="space-y-10">
+      {/* Hero */}
+      <section className="relative overflow-hidden rounded-2xl bg-linear-to-br from-indigo-500 via-purple-500 to-pink-500 p-8 text-white shadow-sm">
+        <div className="relative z-10">
+          <h1 className="text-3xl font-bold leading-tight sm:text-4xl">Chơi game miễn phí, không cần cài đặt</h1>
+          <p className="mt-3 max-w-2xl text-white/90">Hàng nghìn game HTML5: hành động, trí tuệ, thể thao, đua xe, bắn súng, 2 người chơi và hơn thế nữa.</p>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <a href="#trending" className="rounded-full bg-white px-5 py-2 text-sm font-semibold text-black hover:bg-zinc-100">Chơi ngay</a>
+            <a href="#categories" className="rounded-full border border-white/40 px-5 py-2 text-sm font-semibold text-white hover:bg-white/10">Khám phá thể loại</a>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+
+
+        <Image src="/globe.svg" alt="bg" width={400} height={400} className="pointer-events-none absolute -right-8 -top-10 opacity-30" />
+      </section>
+
+      {/* Trending */}
+      <section id="trending" className="space-y-4">
+        <div className="flex items-end justify-between">
+          <h2 className="text-xl font-semibold">Xu hướng</h2>
+          <a href="#" className="text-sm text-indigo-600 hover:underline">Xem tất cả</a>
+        </div>
+        <GameGrid count={10} variant="trending" />
+      </section>
+
+      {/* New */}
+      <section id="new" className="space-y-4">
+        <div className="flex items-end justify-between">
+          <h2 className="text-xl font-semibold">Mới ra mắt</h2>
+          <a href="#" className="text-sm text-indigo-600 hover:underline">Xem tất cả</a>
+        </div>
+        <GameGrid count={10} variant="new" />
+      </section>
+
+      {/* Categories */}
+      <section id="categories" className="space-y-4">
+        <h2 className="text-xl font-semibold">Thể loại</h2>
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+          {[
+            "Hành động",
+            "Đua xe",
+            "Bắn súng",
+            "Trí tuệ",
+            "Thể thao",
+            "2 người chơi",
+          ].map((c) => (
+            <a key={c} href="#" className="rounded-xl border border-black/10 bg-white px-4 py-6 text-center text-sm font-medium shadow-sm hover:bg-zinc-50 dark:border-white/15 dark:bg-zinc-950 dark:hover:bg-zinc-900">
+              {c}
+            </a>
+          ))}
+        </div>
+      </section>
+    </div>
+    </>
+  );
+}
+
+type GameGridProps = {
+  count?: number;
+  variant?: "trending" | "new";
+};
+
+function GameGrid({ count = 10, variant = "trending" }: GameGridProps) {
+  return (
+
+    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+    
+      {Array.from({ length: count }).map((_, i) => (
+        <a
+          key={i}
+          href="#"
+          className="group overflow-hidden rounded-xl border border-black/10 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-white/15 dark:bg-zinc-950"
+        >
+          <div className="relative aspect-video w-full overflow-hidden bg-zinc-100 dark:bg-zinc-900">
             <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+              src={variant === "trending" ? "/window.svg" : "/file.svg"}
+              alt="Game"
+              fill
+              className="object-contain p-6 transition group-hover:scale-105"
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+          </div>
+          <div className="p-3">
+            <p className="line-clamp-1 text-sm font-medium">
+              {variant === "trending" ? "Game hấp dẫn" : "Game mới"} #{i + 1}
+            </p>
+            <p className="mt-1 text-xs text-zinc-500">
+              {variant === "trending" ? "Hành động • 4.6⭐" : "Phiêu lưu • 4.3⭐"}
+            </p>
+          </div>
+          
+        </a>
+        
+      ))}
     </div>
   );
 }
