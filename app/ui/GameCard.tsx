@@ -14,7 +14,7 @@ export default function GameCard({
     const [isHovered,setIsHovered] = useState(false);
   return (
     <a 
-        className=" relative rounded-[12px] overflow-hidden bg-white w-20 h-20 shadow-md m-1.25"
+        className=" relative rounded-[12px] overflow-hidden bg-white w-[94px] h-[94px] shadow-md m-1.25"
         href={href}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}

@@ -1,4 +1,6 @@
-import "./globals.css"
+import "./styles/globals.css"
+import Footer from "./ui/footer"
+import Header from "./ui/header"
 export default function RootLayout({
   children,
 }: {
@@ -6,10 +8,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="min-h-screen">
-          <div className="container mx-auto h-full w-full flex items-center justify-center p-1.25">
+      <body className="flex flex-col min-h-screen">
+          <Header/>
+          <div className="flex-grow container mx-auto h-full w-full flex items-center justify-center p-1.25">
             {children}
           </div>
+          <Footer />
         </body>
     </html>
   );
