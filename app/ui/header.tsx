@@ -30,9 +30,9 @@ export default function Header() {
                             <Search size={isMobile ? 20 : 24} className="text-[#002B50]" />
                         </button>
                         <Image
-                            src="/icon.png"
+                            src="/icon5.png"
                             alt="GameZone Logo"
-                            width={isMobile ? 50 : 70}
+                            width={isMobile ? 150 : 200}
                             height={isMobile ? 50 : 70}
                             className="object-contain"
                         />
