@@ -107,37 +107,37 @@ export default function Home() {
                 image="https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg"
                 video="https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4"
                 title="YoHoHo.io"
-                href="/en/g/yohoho-io"
+                href="/ui/detail"
               />
               <GameCard 
                 image="https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg"
                 video="https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4"
                 title="YoHoHo.io"
-                href="/en/g/yohoho-io"
+                href="/ui/detail"
               />
               <GameCard 
                 image="https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg"
                 video="https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4"
                 title="YoHoHo.io"
-                href="/en/g/yohoho-io"
+                href="/ui/detail"
               />
               <GameCard 
                 image="https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg"
                 video="https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4"
                 title="YoHoHo.io"
-                href="/en/g/yohoho-io"
+                href="/ui/detail"
               />
               <GameCard 
                 image="https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg"
                 video="https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4"
                 title="YoHoHo.io"
-                href="/en/g/yohoho-io"
+                href="/ui/detail"
               />
               <GameCard 
                 image="https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg"
                 video="https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4"
                 title="YoHoHo.io"
-                href="/en/g/yohoho-io"
+                href="/ui/detail"
               />
               <div className="flex items-center justify-center cursor-pointer hover:bg-gray-100 h-full w-[33px] rounded-r-2xl">
                 <FaChevronRight size={20} className="text-gray-500" />
@@ -152,37 +152,37 @@ export default function Home() {
                 image="https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg"
                 video="https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4"
                 title="YoHoHo.io"
-                href="/en/g/yohoho-io"
+                href="/ui/detail"
               />
               <GameCard 
                 image="https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg"
                 video="https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4"
                 title="YoHoHo.io"
-                href="/en/g/yohoho-io"
+                href="/ui/detail"
               />
               <GameCard 
                 image="https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg"
                 video="https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4"
                 title="YoHoHo.io"
-                href="/en/g/yohoho-io"
+                href="/ui/detail"
               />
               <GameCard 
                 image="https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg"
                 video="https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4"
                 title="YoHoHo.io"
-                href="/en/g/yohoho-io"
+                href="/ui/detail"
               />
               <GameCard 
                 image="https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg"
                 video="https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4"
                 title="YoHoHo.io"
-                href="/en/g/yohoho-io"
+                href="/ui/detail"
               />
               <GameCard 
                 image="https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg"
                 video="https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4"
                 title="YoHoHo.io"
-                href="/en/g/yohoho-io"
+                href="/ui/detail"
               />
               <div className="flex items-center justify-center cursor-pointer hover:bg-gray-100 h-full w-[33px] rounded-r-2xl">
                 <FaChevronRight size={20} className="text-gray-500" />
@@ -197,37 +197,37 @@ export default function Home() {
                 image="https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg"
                 video="https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4"
                 title="YoHoHo.io"
-                href="/en/g/yohoho-io"
+                href="/ui/detail"
               />
               <GameCard 
                 image="https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg"
                 video="https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4"
                 title="YoHoHo.io"
-                href="/en/g/yohoho-io"
+                href="/ui/detail"
               />
               <GameCard 
                 image="https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg"
                 video="https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4"
                 title="YoHoHo.io"
-                href="/en/g/yohoho-io"
+                href="/ui/detail"
               />
               <GameCard 
                 image="https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg"
                 video="https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4"
                 title="YoHoHo.io"
-                href="/en/g/yohoho-io"
+                href="/ui/detail"
               />
               <GameCard 
                 image="https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg"
                 video="https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4"
                 title="YoHoHo.io"
-                href="/en/g/yohoho-io"
+                href="/ui/detail"
               />
               <GameCard 
                 image="https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg"
                 video="https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4"
                 title="YoHoHo.io"
-                href="/en/g/yohoho-io"
+                href="/ui/detail"
               />
                <div className="flex items-center justify-center cursor-pointer hover:bg-gray-100 h-full w-[33px] rounded-r-2xl">
                 <FaChevronRight size={20} className="text-gray-500" />
