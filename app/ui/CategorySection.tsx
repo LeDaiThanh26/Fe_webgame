@@ -28,8 +28,8 @@ export default function CategorySection({
     }
 
     return (
-        <div className="flex flex-col">
-            <div className="flex z-10">
+        <div className="flex flex-col  ">
+            <div className="flex z-10 w-fit ">
                 <Image
                     src={bannerSrc}
                     alt={altText}
@@ -49,11 +49,8 @@ export default function CategorySection({
                     </>
                 )}
                 
-            </div>
-            
-            
-            
-            <div className="flex flex-col bg-white gap-5 p-5 px-2.5">
+            </div>       
+            <div className="flex flex-col bg-white gap-5 p-5 px-2.5 rounded-b-[5px] rounded-r-[5px] shadow-[0_6px_16.3px_rgba(0,0,0,0.5)]">
                 {rows.map((row, rowIndex) => (
                     <div className="flex" key={rowIndex}>
                         {row.map((game, gameIndex) => (

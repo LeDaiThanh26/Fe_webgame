@@ -95,8 +95,8 @@ export default function Home() {
 
 ];
   return (
-    <div className="flex flex-col gap-5 w-[1230px]">
-      <div className="flex bg-white flex-col w-full h-[520px] mt-5 rounded-[5px] py-5 pl-5 shadow-2xl">
+    <div className="flex flex-col gap-5 w-[1230px] ">
+      <div className="flex bg-white flex-col w-full h-[520px] mt-5 rounded-[5px] py-5 pl-5 shadow-[0_6px_16.3px_rgba(0,0,0,0.5)]">
           <h1 className="text-3xl font-bold my-3">Online Games at GameZone</h1>
           <div className="flex flex-col gap-5">
             <div className="flex items-center">
@@ -232,7 +232,7 @@ export default function Home() {
                <div className="flex items-center justify-center cursor-pointer hover:bg-gray-100 h-full w-[33px] rounded-r-2xl">
                 <FaChevronRight size={20} className="text-gray-500" />
               </div>
-            </div>
+            </div>  
             
             
           </div>      
