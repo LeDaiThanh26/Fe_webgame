@@ -3,6 +3,8 @@ import GameCategoriesSection from "@/app/ui/GameCategoriesSection";
 import CategorySection from "@/app/ui/CategorySection";
 import { Player,Category } from "./ui/types";
 import LeaderBoard from "./ui/LeaderBoard";
+import Image from "next/image";
+
 export default function Home() {
   /// đoạn ni là call api ra mảng dữ liệu
   const sampleGames = [
@@ -336,12 +338,32 @@ export default function Home() {
                   // class={}
               />
           </div>
-          <div className="flex flex-col w-[28%] gap-5">
+          <div className="flex flex-col w-[28%] gap-6">
                 <LeaderBoard 
                   players={mockPlayers} 
                   onViewAll={handleViewAll}
                 />
-              <div className="bg-white h-[600px]">
+              <div className="bg-white shadow-[0_6px_16.3px_rgba(0,0,0,0.5)] rounded-[5px]">
+                <Image
+                  src={"/banner_quangcao3.png"}
+                  alt="Quảng cáo game"
+                  width={999}
+                  height={999}
+                  className="rounded-[5px]"
+                >
+                </Image>
+                
+              </div>
+              <div className="bg-white shadow-[0_6px_16.3px_rgba(0,0,0,0.5)] rounded-[5px]">
+                <Image
+                  src={"/banner_quangcao4.jpg"}
+                  alt="Quảng cáo game"
+                  width={999}
+                  height={999}
+                  className="rounded-[5px]"
+                >
+                </Image>
+                
               </div>
           </div>
       </div>

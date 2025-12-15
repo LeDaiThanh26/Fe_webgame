@@ -66,13 +66,13 @@ export default function Footer(){
                 <div className={`flex flex-col gap-4 ${isMobile ? 'w-[800px]' : 'w-[400px] ml-20'}`}>
                     <div className="flex items-center gap-2">
                         <Image
-                            src="/icon.png"
+                            src="/icon5.png"
                             alt="logo"
                             width={120}
                             height={120}
                             className="object-contain"
                         />
-                        <h2 className={`${isMobile ? 'text-base' : 'text-lg'} font-bold`}>GameZone - Cổng game trực tuyến miễn phí</h2>
+                        <h2 className={`${isMobile ? 'text-base' : 'text-lg'} font-bold`}>Cổng game trực tuyến miễn phí</h2>
                     </div>
                     <p className={`font-medium ${isMobile ? 'text-sm' : ''}`}>
                         GameZone mang đến cho bạn hàng ngàn trò chơi trực tuyến hấp dẫn,

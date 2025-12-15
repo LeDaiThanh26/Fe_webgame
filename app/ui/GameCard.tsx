@@ -18,7 +18,7 @@ const GameCard = forwardRef<HTMLDivElement, Props>(
 
     return (
       <div
-        ref={ref} // 👈 BẮT BUỘC
+        ref={ref} 
         className={`relative rounded-[12px] cursor-pointer overflow-hidden bg-white
           ${issidebar ? "w-[94px] h-[94px]" : "w-[124px] h-[124px] mx-2.5"}
           shadow-md transition-transform hover:scale-105`}
