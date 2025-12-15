@@ -1,5 +1,6 @@
 import Image from "next/image";
 import GameCardV2 from "./GameCardV2"; 
+import Link from "next/link";
 interface GameData {
     image: string;
     video: string;
@@ -63,9 +64,7 @@ export default function CategorySection({
                 ))}
                 
                 {/* Nút Xem tất cả */}
-                <div className="self-end mr-3 cursor-pointer font-bold text-[12px]">
-                    {'>> Xem tất cả'}
-                </div>
+                <Link href="/ui/category" className="self-end mr-3 font-bold text-[12px] cursor-pointer">&gt;&gt; Xem tất cả</Link>
             </div>
         </div>
     );

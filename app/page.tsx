@@ -307,7 +307,7 @@ export default function Home() {
   };
 
 
-  
+
   return (
     <div className="flex flex-col gap-5 w-[1230px] ">
       <GameCategoriesSection 
@@ -315,6 +315,7 @@ export default function Home() {
           categories={mockCategories}
           onNavigateCategory={handleNavigateCategory}
       />
+
       <div className="flex w-full gap-7">
           <div className="flex flex-col w-[72%] gap-7">
               <CategorySection
