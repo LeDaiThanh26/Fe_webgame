@@ -41,7 +41,7 @@ export default function Sidebar({
                 />
             )}
             <div
-                className={`fixed top-0 left-0 h-full bg-[#4DFFDF] shadow-2xl z-[100] 
+                className={`fixed top-0 left-0 h-full bg-[#06b6d4] shadow-2xl z-[100] 
                     transition-transform duration-300 ease-in-out
                     ${isSearchOpen ? 'translate-x-0' : '-translate-x-full'}
                     ${isMobile ? 'w-full' : 'w-[700px]'}

@@ -1,78 +1,107 @@
 "use client"
 import Image from "next/image"
-import {Search, Facebook, Heart} from "lucide-react"
-import { useEffect, useState } from 'react'
-import Sidebar from "./sidebar" 
-import AuthModal from "./component/auth" // IMPORT COMPONENT MỚI
+import { Search, Facebook, Heart } from "lucide-react"
+import { useEffect, useState } from "react"
+import Sidebar from "./sidebar"
+import AuthModal from "./component/auth"
 
 export default function Header() {
-    const [windowWidth, setWindowWidth] = useState(1860)
-    const [isSearchOpen, setIsSearchOpen] = useState(false)
-    const [isModalOpen, setIsModalOpen] = useState(false) // Đổi tên state cho rõ ràng
+  const [windowWidth, setWindowWidth] = useState(1860)
+  const [isSearchOpen, setIsSearchOpen] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(false)
 
-    useEffect(() => {
-        const handleResize = () => setWindowWidth(window.innerWidth)
-        handleResize()
-        window.addEventListener('resize', handleResize)
-        return () => window.removeEventListener('resize', handleResize)
-    }, [])
+  useEffect(() => {
+    const onScroll = () => setIsScrolled(window.scrollY > 20)
+    window.addEventListener("scroll", onScroll)
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [])
 
-    const isMobile = windowWidth < 1300
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth)
+    handleResize()
+    window.addEventListener("resize", handleResize)
+    return () => window.removeEventListener("resize", handleResize)
+  }, [])
 
-    return (
-        <>
-            <header className="w-full bg-white shadow-md relative z-50">
-                <div className={`flex items-center justify-between mx-auto px-[20px] py-4 max-w-[1860px] ${isMobile ? 'gap-4' : ''}`}>
-                    
-                    {/* Left side */}
-                    <div className="flex items-center gap-4">
-                        <button 
-                            onClick={() => setIsSearchOpen(true)}
-                            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-                        >
-                            <Search size={isMobile ? 20 : 24} className="text-[#002B50]" />
-                        </button>
-                        <Image
-                            src="/icon5.png"
-                            alt="GameZone Logo"
-                            width={isMobile ? 150 : 200}
-                            height={isMobile ? 50 : 70}
-                            className="object-contain"
-                        />
-                    </div>
+  const isMobile = windowWidth < 1300
 
-                    {/* Right side */}
-                    <div className="flex items-center gap-4">
-                        <a href="#" className="p-2 hover:bg-gray-100 rounded-full transition-colors">
-                            <Facebook size={isMobile ? 20 : 24} className="text-[#002B50]" />
-                        </a>
-                        <button className="p-2 hover:bg-gray-100 rounded-full transition-colors relative">
-                            <Heart size={isMobile ? 20 : 24} className="text-[#002B50]" />
-                        </button>
-                        
-                        {/* Nút Đăng nhập: Mở Modal */}
-                        <button 
-                            onClick={() => setIsModalOpen(true)}
-                            className={`${isMobile ? 'px-4 py-2 text-sm' : 'px-6 py-2.5 text-base'} bg-[#0095BE] text-white font-bold rounded-md hover:bg-[#007a9e] transition-all duration-300 shadow-md`}
-                        >
-                            Đăng nhập
-                        </button>
-                    </div>
-                </div>
-            </header>
+  /** 🎨 COLOR THEO TRẠNG THÁI */
+  const bgClass = isScrolled
+    ? "bg-[#002B50]/95 backdrop-blur shadow-xl"
+    : "bg-white"
+
+  const iconColor = isScrolled ? "text-white" : "text-[#002B50]"
+
+  const buttonClass = isScrolled
+    ? "bg-white text-[#002B50] hover:bg-gray-100"
+    : "bg-[#0095BE] text-white hover:bg-[#007a9e]"
+
+  return (
+    <>
+      <header
+        className={`sticky top-0 z-50 w-full transition-all duration-300 ${bgClass}`}
+      >
+        <div className="flex items-center justify-between mx-auto px-[20px] py-4 max-w-[1860px]">
+          
+          {/* LEFT */}
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => setIsSearchOpen(true)}
+              className={`p-2 rounded-full transition-colors hover:bg-black/10 ${iconColor}`}
+            >
+              <Search size={isMobile ? 20 : 24} />
+            </button>
             
-            {/* Sidebar Tìm kiếm */}
-            <Sidebar 
-                isSearchOpen={isSearchOpen} 
-                isMobile={isMobile}
-                setIsSearchOpen={setIsSearchOpen} 
+            <Image
+              src={isScrolled?"/icon_daonguoc.png":"/icon5.png"}
+              alt="GameZone Logo"
+              width={isMobile ? 150 : 140}
+              height={isMobile ? 50 : 70}
+              className="object-contain"
             />
+          </div>
 
-            {/* Auth Modal (Chứa cả Login và Register) */}
-            <AuthModal 
-                isOpen={isModalOpen} 
-                onClose={() => setIsModalOpen(false)} 
-            />
-        </>
-    )
+          {/* RIGHT */}
+          <div className="flex items-center gap-4">
+            <a
+              href="#"
+              className={`p-2 rounded-full transition-colors hover:bg-black/10 ${iconColor}`}
+            >
+              <Facebook size={isMobile ? 20 : 24} />
+            </a>
+
+            <button
+              className={`p-2 rounded-full transition-colors hover:bg-black/10 ${iconColor}`}
+            >
+              <Heart size={isMobile ? 20 : 24} />
+            </button>
+
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className={`font-bold rounded-md transition-all duration-300 shadow-md
+                ${isMobile ? "px-4 py-2 text-sm" : "px-6 py-2.5 text-base"}
+                ${buttonClass}
+              `}
+            >
+              Đăng nhập
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* SEARCH SIDEBAR */}
+      <Sidebar
+        isSearchOpen={isSearchOpen}
+        isMobile={isMobile}
+        setIsSearchOpen={setIsSearchOpen}
+      />
+
+      {/* AUTH MODAL */}
+      <AuthModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
+    </>
+  )
 }
