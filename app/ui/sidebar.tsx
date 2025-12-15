@@ -25,7 +25,8 @@ export default function Sidebar({
         image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
         video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
         title: "Game " + (i + 1),
-        href: "/"
+        href: "#",
+        issidebar: true
     }))
     return (
         <>

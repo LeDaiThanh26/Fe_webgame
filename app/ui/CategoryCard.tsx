@@ -10,7 +10,7 @@ export default function CategoryCard({
 }){
     return(
         <a 
-            className="relative flex flex-col justify-center p-4 h-[94px] w-[288px] rounded-[10px] overflow-hidden transition-transform duration-300 hover:scale-105 group"
+            className="relative mr-2.5 flex flex-col justify-center p-4 h-[124px] w-[288px] rounded-[10px] overflow-hidden transition-transform duration-300 hover:scale-105 group"
             href='#'
         >
             {/* Background Image - Full width */}
@@ -26,7 +26,7 @@ export default function CategoryCard({
             <div 
                 className="absolute inset-0"
                 style={{ 
-                    background: `linear-gradient(to right, ${color} 0%, ${color} 35%,${color}1a 65%, transparent 100%)` 
+                    background: `linear-gradient(to right, ${color} 0%, ${color} 35%,${color}b3 55%, transparent 100%)` 
                 }}
             />
 
