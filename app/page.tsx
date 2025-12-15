@@ -1,12 +1,10 @@
 "use client"
-import {FaGrinSquint, FaSearch,FaChevronRight} from "react-icons/fa"
-import GameCard from "@/app/ui/GameCard"
-import GameCardV2 from "@/app/ui/GameCardV2"
-import CategoryCard from "@/app/ui/CategoryCard";
-import Image from "next/image";
+import GameCategoriesSection from "@/app/ui/GameCategoriesSection";
 import CategorySection from "@/app/ui/CategorySection";
-
+import { Player,Category } from "./ui/types";
+import LeaderBoard from "./ui/LeaderBoard";
 export default function Home() {
+  /// đoạn ni là call api ra mảng dữ liệu
   const sampleGames = [
     {
         image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
@@ -21,222 +19,302 @@ export default function Home() {
       title: "YoHoHo.io",
       href: "/g/yohoho-io",
       currentPlaying: 1500
-  },
-  {
-    image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
-    video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
-    title: "YoHoHo.io",
-    href: "/g/yohoho-io",
-    currentPlaying: 1500
-},
-{
-  image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
-  video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
-  title: "YoHoHo.io",
-  href: "/g/yohoho-io",
-  currentPlaying: 1500
-},
-{
-  image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
-  video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
-  title: "YoHoHo.io",
-  href: "/g/yohoho-io",
-  currentPlaying: 1500
-},
-{
-  image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
-  video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
-  title: "YoHoHo.io",
-  href: "/g/yohoho-io",
-  currentPlaying: 1500
-},
-{
-  image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
-  video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
-  title: "YoHoHo.io",
-  href: "/g/yohoho-io",
-  currentPlaying: 1500
-},
-{
-  image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
-  video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
-  title: "YoHoHo.io",
-  href: "/g/yohoho-io",
-  currentPlaying: 1500
-},
-{
-  image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
-  video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
-  title: "YoHoHo.io",
-  href: "/g/yohoho-io",
-  currentPlaying: 1500
-},
-{
-  image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
-  video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
-  title: "YoHoHo.io",
-  href: "/g/yohoho-io",
-  currentPlaying: 1500
-},
-{
-  image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
-  video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
-  title: "YoHoHo.io",
-  href: "/g/yohoho-io",
-  currentPlaying: 1500
-},
-{
-  image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
-  video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
-  title: "YoHoHo.io",
-  href: "/g/yohoho-io",
-  currentPlaying: 1500
-},
+    },
+    {
+      image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
+      video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
+      title: "YoHoHo.io",
+      href: "/g/yohoho-io",
+      currentPlaying: 1500
+    },
+    {
+      image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
+      video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
+      title: "YoHoHo.io",
+      href: "/g/yohoho-io",
+      currentPlaying: 1500
+    },
+    {
+      image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
+      video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
+      title: "YoHoHo.io",
+      href: "/g/yohoho-io",
+      currentPlaying: 1500
+    },
+    {
+      image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
+      video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
+      title: "YoHoHo.io",
+      href: "/g/yohoho-io",
+      currentPlaying: 1500
+    },
+    {
+      image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
+      video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
+      title: "YoHoHo.io",
+      href: "/g/yohoho-io",
+      currentPlaying: 1500
+    },
+    {
+      image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
+      video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
+      title: "YoHoHo.io",
+      href: "/g/yohoho-io",
+      currentPlaying: 1500
+    },
+    {
+      image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
+      video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
+      title: "YoHoHo.io",
+      href: "/g/yohoho-io",
+      currentPlaying: 1500
+    },
+    {
+      image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
+      video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
+      title: "YoHoHo.io",
+      href: "/g/yohoho-io",
+      currentPlaying: 1500
+    },
+    {
+      image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
+      video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
+      title: "YoHoHo.io",
+      href: "/g/yohoho-io",
+      currentPlaying: 1500
+    },
+    {
+      image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
+      video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
+      title: "YoHoHo.io",
+      href: "/g/yohoho-io",
+      currentPlaying: 1500
+    },
 
-];
+  ];
+  const mockPlayers: Player[] = [
+    {
+      rank: 1,
+      name: "Nguyễn Lâm Phong",
+      experiencePoints: 365473,
+      playTime: "156h10p35s",
+      avatar: "https://tse4.mm.bing.net/th/id/OIP.ByOuElmqwpS6F9ScgWwBvAHaHa"
+    },
+    {
+      rank: 2,
+      name: "Trần Văn A",
+      experiencePoints: 320000,
+      playTime: "140h20p10s",
+      avatar: "https://tse4.mm.bing.net/th/id/OIP.ByOuElmqwpS6F9ScgWwBvAHaHa"
+    },
+    {
+      rank: 3,
+      name: "Lê Thị B",
+      experiencePoints: 280000,
+      playTime: "120h15p25s",
+      avatar: "https://tse4.mm.bing.net/th/id/OIP.ByOuElmqwpS6F9ScgWwBvAHaHa"
+    },
+    {
+      rank: 4,
+      name: "Lê Thị B",
+      experiencePoints: 280000,
+      playTime: "120h15p25s",
+      avatar: "https://tse4.mm.bing.net/th/id/OIP.ByOuElmqwpS6F9ScgWwBvAHaHa"
+    },
+    {
+      rank: 5,
+      name: "Lê Thị B",
+      experiencePoints: 280000,
+      playTime: "120h15p25s",
+      avatar: "https://tse4.mm.bing.net/th/id/OIP.ByOuElmqwpS6F9ScgWwBvAHaHa"
+    },
+    {
+      rank: 6,
+      name: "Lê Thị B",
+      experiencePoints: 280000,
+      playTime: "120h15p25s",
+      avatar: "https://tse4.mm.bing.net/th/id/OIP.ByOuElmqwpS6F9ScgWwBvAHaHa"
+    },
+    {
+      rank: 7,
+      name: "Lê Thị B",
+      experiencePoints: 280000,
+      playTime: "120h15p25s",
+      avatar: "https://tse4.mm.bing.net/th/id/OIP.ByOuElmqwpS6F9ScgWwBvAHaHa"
+    },
+  ];
+  const mockCategories: Category[] = [
+    {
+      id: "driving",
+      image: "https://tse1.mm.bing.net/th/id/OIP.qzRrYOwUN9_HkeIlbOBDCwHaEo?cb=ucfimg2&ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3",
+      title: "Driving",
+      color: "#0EA5E9",
+      games: [
+        {
+          id: "yohoho-1",
+          image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
+          video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
+          title: "YoHoHo.io",
+          href: "/en/g/yohoho-io"
+        },
+        {
+          id: "yohoho-2",
+          image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
+          video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
+          title: "YoHoHo.io",
+          href: "/en/g/yohoho-io"
+        },
+        {
+          id: "yohoho-3",
+          image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
+          video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
+          title: "YoHoHo.io",
+          href: "/en/g/yohoho-io"
+        },
+        {
+          id: "yohoho-4",
+          image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
+          video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
+          title: "YoHoHo.io",
+          href: "/en/g/yohoho-io"
+        },
+        {
+          id: "yohoho-5",
+          image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
+          video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
+          title: "YoHoHo.io",
+          href: "/en/g/yohoho-io"
+        },
+        {
+          id: "yohoho-6",
+          image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
+          video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
+          title: "YoHoHo.io",
+          href: "/en/g/yohoho-io"
+        }
+      ]
+    },
+    {
+      id: "for-girls",
+      image: "https://tse4.mm.bing.net/th/id/OIP.BjSEPZ5nXCnMDMqBBVzBhQHaD4?cb=ucfimg2&ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3",
+      title: "For Girls",
+      color: "#db61c9",
+      games: [
+        {
+          id: "girls-game-1",
+          image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
+          video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
+          title: "YoHoHo.io",
+          href: "/en/g/yohoho-io"
+        },
+        {
+          id: "girls-game-2",
+          image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
+          video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
+          title: "YoHoHo.io",
+          href: "/en/g/yohoho-io"
+        },
+        {
+          id: "girls-game-3",
+          image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
+          video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
+          title: "YoHoHo.io",
+          href: "/en/g/yohoho-io"
+        },
+        {
+          id: "girls-game-4",
+          image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
+          video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
+          title: "YoHoHo.io",
+          href: "/en/g/yohoho-io"
+        },
+        {
+          id: "girls-game-5",
+          image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
+          video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
+          title: "YoHoHo.io",
+          href: "/en/g/yohoho-io"
+        },
+        {
+          id: "girls-game-6",
+          image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
+          video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
+          title: "YoHoHo.io",
+          href: "/en/g/yohoho-io"
+        }
+      ]
+    },
+    {
+      id: "shooting",
+      image: "https://th.bing.com/th/id/R.a64fd915a34c87e9a2c3d2e0f74109fb?rik=kZtUnnEipprgyw&pid=ImgRaw&r=0",
+      title: "Shooting",
+      color: "#b88b1e",
+      games: [
+        {
+          id: "shooting-game-1",
+          image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
+          video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
+          title: "YoHoHo.io",
+          href: "/en/g/yohoho-io"
+        },
+        {
+          id: "shooting-game-2",
+          image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
+          video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
+          title: "YoHoHo.io",
+          href: "/en/g/yohoho-io"
+        },
+        {
+          id: "shooting-game-3",
+          image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
+          video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
+          title: "YoHoHo.io",
+          href: "/en/g/yohoho-io"
+        },
+        {
+          id: "shooting-game-4",
+          image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
+          video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
+          title: "YoHoHo.io",
+          href: "/en/g/yohoho-io"
+        },
+        {
+          id: "shooting-game-5",
+          image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
+          video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
+          title: "YoHoHo.io",
+          href: "/en/g/yohoho-io"
+        },
+        {
+          id: "shooting-game-6",
+          image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
+          video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
+          title: "YoHoHo.io",
+          href: "/en/g/yohoho-io"
+        }
+      ]
+    }
+  ];
+
+
+  const handleViewAll = () => {
+    console.log("Xem tất cả leaderboard");
+    // Navigate hoặc open modal
+  };
+  const handleNavigateCategory = (categoryId: string) => {
+    console.log(`Navigate to category: ${categoryId}`);
+    // router.push(`/category/${categoryId}`) hoặc mở modal
+  };
+
+
+  
   return (
     <div className="flex flex-col gap-5 w-[1230px] ">
-      <div className="flex bg-white flex-col w-full h-[520px] mt-5 rounded-[5px] py-5 pl-5 shadow-[0_6px_16.3px_rgba(0,0,0,0.5)]">
-          <h1 className="text-3xl font-bold my-3">Online Games at GameZone</h1>
-          <div className="flex flex-col gap-5">
-            <div className="flex items-center">
-              <CategoryCard image="https://tse1.mm.bing.net/th/id/OIP.qzRrYOwUN9_HkeIlbOBDCwHaEo?cb=ucfimg2&ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3" 
-                          title="Driving" 
-                          color="#0EA5E9"/>
-              <GameCard 
-                image="https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg"
-                video="https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4"
-                title="YoHoHo.io"
-                href="/en/g/yohoho-io"
-              />
-              <GameCard 
-                image="https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg"
-                video="https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4"
-                title="YoHoHo.io"
-                href="/en/g/yohoho-io"
-              />
-              <GameCard 
-                image="https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg"
-                video="https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4"
-                title="YoHoHo.io"
-                href="/en/g/yohoho-io"
-              />
-              <GameCard 
-                image="https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg"
-                video="https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4"
-                title="YoHoHo.io"
-                href="/en/g/yohoho-io"
-              />
-              <GameCard 
-                image="https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg"
-                video="https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4"
-                title="YoHoHo.io"
-                href="/en/g/yohoho-io"
-              />
-              <GameCard 
-                image="https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg"
-                video="https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4"
-                title="YoHoHo.io"
-                href="/en/g/yohoho-io"
-              />
-              <div className="flex items-center justify-center cursor-pointer hover:bg-gray-100 h-full w-[33px] rounded-r-2xl">
-                <FaChevronRight size={20} className="text-gray-500" />
-              </div>
-
-            </div> 
-            <div className="flex items-center">
-              <CategoryCard image="https://tse4.mm.bing.net/th/id/OIP.BjSEPZ5nXCnMDMqBBVzBhQHaD4?cb=ucfimg2&ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3" 
-                        title="For Girls" 
-                        color="#db61c9"/>
-              <GameCard 
-                image="https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg"
-                video="https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4"
-                title="YoHoHo.io"
-                href="/en/g/yohoho-io"
-              />
-              <GameCard 
-                image="https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg"
-                video="https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4"
-                title="YoHoHo.io"
-                href="/en/g/yohoho-io"
-              />
-              <GameCard 
-                image="https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg"
-                video="https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4"
-                title="YoHoHo.io"
-                href="/en/g/yohoho-io"
-              />
-              <GameCard 
-                image="https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg"
-                video="https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4"
-                title="YoHoHo.io"
-                href="/en/g/yohoho-io"
-              />
-              <GameCard 
-                image="https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg"
-                video="https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4"
-                title="YoHoHo.io"
-                href="/en/g/yohoho-io"
-              />
-              <GameCard 
-                image="https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg"
-                video="https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4"
-                title="YoHoHo.io"
-                href="/en/g/yohoho-io"
-              />
-              <div className="flex items-center justify-center cursor-pointer hover:bg-gray-100 h-full w-[33px] rounded-r-2xl">
-                <FaChevronRight size={20} className="text-gray-500" />
-              </div>
-
-            </div>
-            <div className="flex items-center">
-              <CategoryCard image="https://th.bing.com/th/id/R.a64fd915a34c87e9a2c3d2e0f74109fb?rik=kZtUnnEipprgyw&pid=ImgRaw&r=0" 
-                        title="Shooting" 
-                        color="#b88b1e"/>
-              <GameCard 
-                image="https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg"
-                video="https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4"
-                title="YoHoHo.io"
-                href="/en/g/yohoho-io"
-              />
-              <GameCard 
-                image="https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg"
-                video="https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4"
-                title="YoHoHo.io"
-                href="/en/g/yohoho-io"
-              />
-              <GameCard 
-                image="https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg"
-                video="https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4"
-                title="YoHoHo.io"
-                href="/en/g/yohoho-io"
-              />
-              <GameCard 
-                image="https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg"
-                video="https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4"
-                title="YoHoHo.io"
-                href="/en/g/yohoho-io"
-              />
-              <GameCard 
-                image="https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg"
-                video="https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4"
-                title="YoHoHo.io"
-                href="/en/g/yohoho-io"
-              />
-              <GameCard 
-                image="https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg"
-                video="https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4"
-                title="YoHoHo.io"
-                href="/en/g/yohoho-io"
-              />
-               <div className="flex items-center justify-center cursor-pointer hover:bg-gray-100 h-full w-[33px] rounded-r-2xl">
-                <FaChevronRight size={20} className="text-gray-500" />
-              </div>
-            </div>  
-            
-            
-          </div>      
-      </div>
+      <GameCategoriesSection 
+          title="Online Games at GameZone"
+          categories={mockCategories}
+          onNavigateCategory={handleNavigateCategory}
+      />
       <div className="flex w-full gap-7">
           <div className="flex flex-col w-[72%] gap-7">
               <CategorySection
@@ -258,8 +336,10 @@ export default function Home() {
               />
           </div>
           <div className="flex flex-col w-[28%] gap-5">
-              <div className="bg-white h-[600px]">
-              </div>
+                <LeaderBoard 
+                  players={mockPlayers} 
+                  onViewAll={handleViewAll}
+                />
               <div className="bg-white h-[600px]">
               </div>
           </div>
