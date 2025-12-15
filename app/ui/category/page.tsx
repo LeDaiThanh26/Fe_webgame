@@ -1,7 +1,8 @@
 "use client";
 
 import CategorySection from "@/app/ui/CategorySection";
-
+import LeaderBoard from "../LeaderBoard";
+import { Player,Category } from "../types";
 interface Game {
   image: string;
   video: string;
@@ -121,6 +122,57 @@ const sampleGames: Game[] = [
   },
   
 ];
+const mockPlayers: Player[] = [
+  {
+    rank: 1,
+    name: "Nguyễn Lâm Phong",
+    experiencePoints: 365473,
+    playTime: "156h10p35s",
+    avatar: "https://tse4.mm.bing.net/th/id/OIP.ByOuElmqwpS6F9ScgWwBvAHaHa"
+  },
+  {
+    rank: 2,
+    name: "Trần Văn A",
+    experiencePoints: 320000,
+    playTime: "140h20p10s",
+    avatar: "https://tse4.mm.bing.net/th/id/OIP.ByOuElmqwpS6F9ScgWwBvAHaHa"
+  },
+  {
+    rank: 3,
+    name: "Lê Thị B",
+    experiencePoints: 280000,
+    playTime: "120h15p25s",
+    avatar: "https://tse4.mm.bing.net/th/id/OIP.ByOuElmqwpS6F9ScgWwBvAHaHa"
+  },
+  {
+    rank: 4,
+    name: "Lê Thị B",
+    experiencePoints: 280000,
+    playTime: "120h15p25s",
+    avatar: "https://tse4.mm.bing.net/th/id/OIP.ByOuElmqwpS6F9ScgWwBvAHaHa"
+  },
+  {
+    rank: 5,
+    name: "Lê Thị B",
+    experiencePoints: 280000,
+    playTime: "120h15p25s",
+    avatar: "https://tse4.mm.bing.net/th/id/OIP.ByOuElmqwpS6F9ScgWwBvAHaHa"
+  },
+  {
+    rank: 6,
+    name: "Lê Thị B",
+    experiencePoints: 280000,
+    playTime: "120h15p25s",
+    avatar: "https://tse4.mm.bing.net/th/id/OIP.ByOuElmqwpS6F9ScgWwBvAHaHa"
+  },
+  {
+    rank: 7,
+    name: "Lê Thị B",
+    experiencePoints: 280000,
+    playTime: "120h15p25s",
+    avatar: "https://tse4.mm.bing.net/th/id/OIP.ByOuElmqwpS6F9ScgWwBvAHaHa"
+  },
+];
 
 export default function CategoryLayout() {
   return (
@@ -138,8 +190,10 @@ export default function CategoryLayout() {
 
       {/* RIGHT */}
       <div className="flex flex-col w-[28%] gap-5">
-        <div className="bg-white h-[600px]" />
-      </div>
+                <LeaderBoard 
+                  players={mockPlayers} 
+                />
+          </div>
     </div>
     </div>
   );
