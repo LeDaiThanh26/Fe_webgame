@@ -26,16 +26,16 @@ export default function Header() {
 
   const isMobile = windowWidth < 1300
 
-  /** 🎨 COLOR THEO TRẠNG THÁI */
   const bgClass = isScrolled
-    ? "bg-[#002B50]/95 backdrop-blur shadow-xl"
-    : "bg-white"
+  ? "bg-[#002B50]/95 backdrop-blur shadow-xl"
+  : "bg-gradient-to-b from-white to-gray-50 shadow-lg"
 
   const iconColor = isScrolled ? "text-white" : "text-[#002B50]"
 
   const buttonClass = isScrolled
     ? "bg-white text-[#002B50] hover:bg-gray-100"
     : "bg-[#0095BE] text-white hover:bg-[#007a9e]"
+
 
   return (
     <>

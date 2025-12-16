@@ -9,14 +9,16 @@ type Props = {
   title: string;
   href: string;
   issidebar?: boolean;
+  isRecentPlay?: boolean;
 };
 
 const GameCard = forwardRef<HTMLDivElement, Props>(
-  ({ image, video, title, href, issidebar = false }, ref) => {
+  ({ image, video, title, href, issidebar = false,isRecentPlay=false}, ref) => {
     const [isHovered, setIsHovered] = useState(false);
     const router = useRouter();
 
     return (
+      <>
       <div
         ref={ref} 
         className={`relative rounded-[12px] cursor-pointer overflow-hidden bg-white
@@ -48,6 +50,7 @@ const GameCard = forwardRef<HTMLDivElement, Props>(
           />
         )}
       </div>
+      </>
     );
   }
 );

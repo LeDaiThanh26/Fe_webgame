@@ -1,8 +1,8 @@
 "use client";
 
 import CategorySection from "@/app/ui/CategorySection";
-import LeaderBoard from "../LeaderBoard";
-import { Player,Category } from "../types";
+import LeaderBoard from "@/app/ui/LeaderBoard";
+import { Player,Category } from "@/app/ui/types";
 interface Game {
   image: string;
   video: string;
