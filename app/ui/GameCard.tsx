@@ -2,6 +2,8 @@
 
 import { useState, forwardRef } from "react";
 import { useRouter } from "next/navigation";
+import { FaRedo } from 'react-icons/fa';        // Từ Font Awesome
+
 
 type Props = {
   image: string;
@@ -19,11 +21,12 @@ const GameCard = forwardRef<HTMLDivElement, Props>(
 
     return (
       <>
+      <div className="relative transition-transform hover:scale-105">
       <div
         ref={ref} 
         className={`relative rounded-[12px] cursor-pointer overflow-hidden bg-white
           ${issidebar ? "w-[94px] h-[94px]" : "w-[124px] h-[124px] mx-2.5"}
-          shadow-md transition-transform hover:scale-105`}
+          shadow-md `}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         onClick={() => router.push(href)}
@@ -50,6 +53,14 @@ const GameCard = forwardRef<HTMLDivElement, Props>(
           />
         )}
       </div>
+      {isRecentPlay?(
+      <div className="absolute top-2 -left-1 z-5 flex justify-center items-center  bg-white h-7 w-7 rounded-r-3xl">
+        <FaRedo size={15} color="#10a2ff" className="rotate-45 scale-x-[-1]"/>
+      </div>)
+      :("")}
+      
+      </div>
+      
       </>
     );
   }

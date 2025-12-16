@@ -3,14 +3,15 @@ import Image from "next/image"
 import { Search, Facebook, Heart } from "lucide-react"
 import { useEffect, useState } from "react"
 import Sidebar from "./sidebar"
-import AuthModal from "./component/auth"
+import AuthModal from "./Auth/auth"
+import { useRouter } from 'next/navigation';
 
 export default function Header() {
   const [windowWidth, setWindowWidth] = useState(1860)
   const [isSearchOpen, setIsSearchOpen] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
-
+  const router=useRouter();
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 20)
     window.addEventListener("scroll", onScroll)
@@ -48,7 +49,7 @@ export default function Header() {
           <div className="flex items-center gap-4">
             <button
               onClick={() => setIsSearchOpen(true)}
-              className={`p-2 rounded-full transition-colors hover:bg-black/10 ${iconColor}`}
+              className={`p-2 cursor-pointer rounded-full transition-colors hover:bg-black/10 ${iconColor}`}
             >
               <Search size={isMobile ? 20 : 24} />
             </button>
@@ -58,7 +59,8 @@ export default function Header() {
               alt="GameZone Logo"
               width={isMobile ? 150 : 140}
               height={isMobile ? 50 : 70}
-              className="object-contain"
+              className="object-contain cursor-pointer"
+              onClick={()=>{router.push('/')}}
             />
           </div>
 
@@ -66,20 +68,20 @@ export default function Header() {
           <div className="flex items-center gap-4">
             <a
               href="#"
-              className={`p-2 rounded-full transition-colors hover:bg-black/10 ${iconColor}`}
+              className={`p-2 rounded-full transition-colors cursor-pointer hover:bg-black/10 ${iconColor}`}
             >
               <Facebook size={isMobile ? 20 : 24} />
             </a>
 
             <button
-              className={`p-2 rounded-full transition-colors hover:bg-black/10 ${iconColor}`}
+              className={`p-2 rounded-full transition-colors cursor-pointer hover:bg-black/10 ${iconColor}`}
             >
               <Heart size={isMobile ? 20 : 24} />
             </button>
 
             <button
               onClick={() => setIsModalOpen(true)}
-              className={`font-bold rounded-md transition-all duration-300 shadow-md
+              className={`font-bold cursor-pointer rounded-md transition-all duration-300 shadow-md
                 ${isMobile ? "px-4 py-2 text-sm" : "px-6 py-2.5 text-base"}
                 ${buttonClass}
               `}

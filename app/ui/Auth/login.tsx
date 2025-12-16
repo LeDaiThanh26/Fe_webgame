@@ -17,7 +17,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onClose, onToggleMode }) => {
               aria-label="Đóng"
               onClick={onClose} 
             >
-              <X className="h-7 w-7" />
+              <X className=" cursor-pointer h-7 w-7" />
             </button>
             
             <h2 className="text-white text-2xl font-bold text-center mt-4 mb-8">
