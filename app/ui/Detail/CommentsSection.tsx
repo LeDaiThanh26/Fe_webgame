@@ -99,9 +99,6 @@ const CommentsSection = ({ idGame }: { idGame: string }) => {
                 <span style={{ fontSize: '14px', fontWeight: 'normal' }}>
                     {pagination.totalComments.toLocaleString()} bình luận
                 </span>
-                <div className="sort-btn">
-                    Sắp xếp theo thời gian <ArrowUp size={14} />
-                </div>
             </div>
 
             {/* Ô nhập bình luận có nút đăng */}
