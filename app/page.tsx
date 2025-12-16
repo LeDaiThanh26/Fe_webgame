@@ -21,13 +21,13 @@ export default function Home() {
       .catch(err => console.error(err));
     
     // Fetch shooter games
-    fetch('http://localhost:5000/api/games/shooter')
+    fetch('http://localhost:5000/api/games/category/shooter')
       .then(res => res.json())
       .then(data => setShootinggames(data.data))
       .catch(err => console.error(err));
     
     // Fetch racing games
-    fetch('http://localhost:5000/api/games/racing')
+    fetch('http://localhost:5000/api/games/category/racing')
       .then(res => res.json())
       .then(data => setDrivinggames(data.data))
       .catch(err => console.error(err));
