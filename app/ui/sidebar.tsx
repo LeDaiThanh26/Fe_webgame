@@ -263,6 +263,7 @@ export default function Sidebar({
                                 {searchResults.map((game) => (
                                     <GameCard
                                         key={game._id}
+                                        gameId={game._id}
                                         image={game.thumbnail}
                                         video={game.video}
                                         title={game.name}
@@ -288,6 +289,7 @@ export default function Sidebar({
                                         {recommendedGames.map((game) => (
                                             <GameCard
                                                 key={game._id}
+                                                gameId={game._id}
                                                 image={game.thumbnail}
                                                 video={game.video}
                                                 title={game.name}
@@ -311,6 +313,7 @@ export default function Sidebar({
                                         {recentGames.map((game) => (
                                             <GameCard
                                                 key={game._id}
+                                                gameId={game._id}
                                                 image={game.thumbnail}
                                                 video={game.video}
                                                 title={game.name}
@@ -336,6 +339,7 @@ export default function Sidebar({
                                         {favouriteGames.map((game) => (
                                             <GameCard
                                                 key={game._id}
+                                                gameId={game._id}
                                                 image={game.thumbnail}
                                                 video={game.video}
                                                 title={game.name}

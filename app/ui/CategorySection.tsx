@@ -1,5 +1,5 @@
 import Image from "next/image";
-import GameCardV2 from "./GameCardV2"; 
+import GameCardV2 from "./GameCardV2";
 import Link from "next/link";
 interface GameData {
     thumbnail: string;
@@ -7,13 +7,14 @@ interface GameData {
     name: string;
     slug: string;
     currentPlaying: number;
-    category: string
+    category: string;
+    _id?: string;
 }
 interface CategorySectionProps {
-    bannerSrc: string; 
+    bannerSrc: string;
     altText: string;
     games: GameData[];
-    isGameHayNhat?: boolean 
+    isGameHayNhat?: boolean
 }
 
 export default function CategorySection({
@@ -37,33 +38,33 @@ export default function CategorySection({
                     alt={altText}
                     width={250}
                     height={100}
-                    className={isGameHayNhat?"z-9 cursor-pointer":"-mb-[14px] z-9 cursor-pointer"}
+                    className={isGameHayNhat ? "z-9 cursor-pointer" : "-mb-[14px] z-9 cursor-pointer"}
                 />
                 {!isGameHayNhat && (
                     <>
                         <div className="w-[200px] cursor-pointer z-8 -ml-[10px] h-full rounded-tr-xl font-bold bg-gray-300 shadow-inner shadow-black/30 flex items-center justify-center">
-                        Game hay
+                            Game hay
                         </div>
 
                         <div className="w-[170px] cursor-pointer -ml-[20px] h-full rounded-tr-xl font-bold bg-gray-200 shadow-inner shadow-black/30 flex items-center justify-center">
-                        Chơi nhiều
+                            Chơi nhiều
                         </div>
                     </>
                 )}
-                
-            </div>       
+
+            </div>
             <div className="flex flex-col bg-white gap-5 p-5 px-2.5 rounded-b-[5px] rounded-r-[5px] shadow-[0_6px_16.3px_rgba(0,0,0,0.5)]">
                 {rows.map((row, rowIndex) => (
                     <div className="flex" key={rowIndex}>
                         {row.map((game, gameIndex) => (
-                            <GameCardV2 
+                            <GameCardV2
                                 key={gameIndex}
                                 {...game}
                             />
                         ))}
                     </div>
                 ))}
-                
+
                 {/* Nút Xem tất cả */}
                 <Link href="/ui/category" className="self-end mr-3 font-bold text-[12px] cursor-pointer">&gt;&gt; Xem tất cả</Link>
             </div>

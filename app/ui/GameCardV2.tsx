@@ -1,28 +1,31 @@
 "use client"
 import { useRef } from "react"
 import GameCard from "./GameCard"
-export default function GameCardV2({ 
-  name, 
+export default function GameCardV2({
+  name,
   currentPlaying,
-  thumbnail, 
-  video, 
+  thumbnail,
+  video,
   slug,
+  _id,
 }: {
   name: string
   currentPlaying: number
   thumbnail: string
   video: string
   slug: string
+  _id?: string
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
   return (
     <div className="flex flex-col gap-2">
-      <GameCard 
+      <GameCard
         ref={cardRef}
-        title={name} 
-        image={thumbnail} 
-        video={video} 
+        title={name}
+        image={thumbnail}
+        video={video}
         slug={slug}
+        gameId={_id}
       />
 
       <div className="flex flex-col mx-2.5">
@@ -31,7 +34,7 @@ export default function GameCardV2({
           {name}
         </p>
         <p className="text-black text-[10px]">
-          Đang chơi: {currentPlaying?currentPlaying:0}
+          Đang chơi: {currentPlaying ? currentPlaying : 0}
         </p>
       </div>
     </div>

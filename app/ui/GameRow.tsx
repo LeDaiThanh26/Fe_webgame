@@ -10,23 +10,24 @@ type GameRowProps = {
 export default function GameRow({ category, onNavigate }: GameRowProps) {
   return (
     <div className="flex items-center">
-      <CategoryCard 
-        image={category.image} 
-        title={category.title} 
+      <CategoryCard
+        image={category.image}
+        title={category.title}
         color={category.color}
       />
-      
+
       {category.games.map((game) => (
-        <GameCard 
+        <GameCard
           key={game.id}
+          gameId={game.id}
           image={game.image}
           video={game.video}
           title={game.title}
-          href={game.href}
+          slug={game.href}
         />
       ))}
-      
-      <div 
+
+      <div
         className="flex items-center justify-center cursor-pointer hover:bg-gray-100 h-full w-[33px] rounded-r-2xl"
         onClick={onNavigate}
       >
