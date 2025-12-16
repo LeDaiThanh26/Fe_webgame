@@ -7,6 +7,7 @@ interface GameData {
     name: string;
     slug: string;
     currentPlaying: number;
+    category: string
 }
 interface CategorySectionProps {
     bannerSrc: string; 

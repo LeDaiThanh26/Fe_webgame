@@ -7,12 +7,22 @@ import Image from "next/image";
 import { useState,useEffect } from "react";
 export default function Home() {
   const [games, setGames] = useState([]);
+  const [Shootinggames, setShootinggames] = useState([]);
+  const [Drivinggames, setDrivinggames] = useState([]);
+
   useEffect(() => {
     fetch('http://localhost:5000/api/games/')
       .then(res => res.json())
       .then(data => setGames(data.data))
       .catch(err => console.error(err));
-      console.log(games)
+    fetch('http://localhost:5000/api/games/shooter-game')
+      .then(res => res.json())
+      .then(data => setShootinggames(data.data))
+      .catch(err => console.error(err));
+    fetch('http://localhost:5000/api/games/racing-game')
+      .then(res => res.json())
+      .then(data => setDrivinggames(data.data))
+      .catch(err => console.error(err));
   }, []);
   /// đoạn ni là call api ra mảng dữ liệu
   
@@ -251,12 +261,12 @@ export default function Home() {
               <CategorySection
                   bannerSrc="/banner_gamebansung.png"
                   altText="Game bắn súng"
-                  games={games}
+                  games={Shootinggames}
               />
               <CategorySection
                   bannerSrc="/banner_gameduaxe.png"
                   altText="Game đua xe"
-                  games={games}
+                  games={Drivinggames}
                   // class={}
               />
           </div>
