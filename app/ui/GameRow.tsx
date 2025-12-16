@@ -11,15 +11,16 @@ export default function GameRow({ category }: GameRowProps) {
 
   return (
     <div className="flex items-center">
-      <CategoryCard 
-        image={category.image} 
-        title={category.title} 
+      <CategoryCard
+        image={category.image}
+        title={category.title}
         color={category.color}
       />
-      
+
       {category.games.map((game) => (
         <GameCard
           key={game.id}
+          gameId={game.id}
           image={game.image}
           video={game.video}
           title={game.title}
