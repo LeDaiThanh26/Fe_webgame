@@ -1,5 +1,4 @@
 import React from 'react';
-import { ArrowUp } from "lucide-react";
 import CommentsSection from '../ui/Detail/CommentsSection';
 import SimilarGames from '../ui/Detail/SimilarGames';
 import Favourites from '../ui/Detail/Favourite';
@@ -25,13 +24,6 @@ const GameDetails = async ({ params }: { params: { slug: string } }) => {
         { id: 1, user: "manh.nguyenan0308", time: "1 năm trước", text: "13/3/24 Có ai còn nghe k!!!", likes: 165, avatarText: "A", avatarBg: "#333" },
         { id: 2, user: "thanh.tranminh47262", time: "3 năm trước", text: "Ở kia, đang nghe thì mẹ kêu rửa bát :((<br>Sợ vãi=", likes: 1, avatarText: "B", avatarBg: "#900" },
         { id: 3, user: "ngoc.huynhthi052", time: "1 năm trước", text: "Tôi nhớ lúc trước chú Ngạn sáng tác nhiều truyện ma lắm mà sao giờ tôi search chỉ có tầm chục đến 10 truyện", likes: 5, avatarText: "C", avatarBg: "#4CAF50" },
-    ];
-
-    const similarGames = [
-        { name: "Minecraft 1", color: "#81C784" },
-        { name: "Minecraft 2", color: "#64B5F6" },
-        { name: "Minecraft 3", color: "#FFB74D" },
-        { name: "Minecraft 4", color: "#BA68C8" },
     ];
 
     const cssStyles = `
@@ -63,8 +55,21 @@ const GameDetails = async ({ params }: { params: { slug: string } }) => {
         .section-title { font-size: 18px; font-weight: bold; margin-bottom: 10px; margin-top: 20px; }
         .description-text { font-size: 14px; color: #555; line-height: 1.6; margin-bottom: 20px; text-align: justify; }
         .note-text { font-size: 14px; color: #555; margin-bottom: 20px; }
-        .game-image-container { width: 100%; height: auto; border-radius: 8px; overflow: hidden; margin-bottom: 20px; display: flex; flex-direction: column; gap: 10px; }
-        .game-image-container img { width: 100%; height: auto; display: block; object-fit: cover; }
+        .game-image-container { 
+            width: 100%; 
+            border-radius: 8px; 
+            margin-bottom: 20px; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 10px; 
+        }
+        .game-image-container img { 
+            width: 100%; 
+            height: auto; 
+            max-height: 420px;
+            object-fit: contain; 
+            display: block; 
+        }
         .bottom-layout { display: flex; gap: 20px; width: 100%; }
         .left-column { flex: 2; }
         .right-column { flex: 1; }
@@ -177,7 +182,7 @@ const GameDetails = async ({ params }: { params: { slug: string } }) => {
 
                 <div className="bottom-layout">
                     <CommentsSection comments={comments} />
-                    <SimilarGames games={similarGames} />
+                    <SimilarGames />
                 </div>
             </div>
         </div>

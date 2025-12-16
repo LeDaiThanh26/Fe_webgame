@@ -8,6 +8,7 @@ interface Game {
     _id: string;
     name: string;
     thumbnail: string;
+    slug: string; // dùng để điều hướng giống ngoài trang chủ
 }
 
 const SimilarGames = () => {
@@ -56,7 +57,7 @@ const SimilarGames = () => {
             <div className="similar-game-list">
                 {games.map((game) => (
                     <Link 
-                        href={`/detail/${game._id}`} 
+                        href={game.slug} 
                         key={game._id} 
                         className="game-thumb"
                         style={{ display: 'block', position: 'relative' }}
