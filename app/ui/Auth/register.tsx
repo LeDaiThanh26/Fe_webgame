@@ -1,4 +1,6 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { X } from 'lucide-react';
 
@@ -8,6 +10,52 @@ interface RegisterFormProps {
 }
 
 const RegisterForm: React.FC<RegisterFormProps> = ({ onClose, onToggleMode }) => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '', // Thêm trường email để khớp với Controller của bạn
+    password: '',
+    confirmPassword: ''
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (formData.password !== formData.confirmPassword) {
+      alert("Mật khẩu nhập lại không khớp!");
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:5000/api/users/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          password: formData.password
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert("Đăng ký thành công!");
+        onToggleMode(); // Chuyển sang form đăng nhập
+      } else {
+        alert(data.message || "Có lỗi xảy ra");
+      }
+    } catch (error) {
+      console.error("Lỗi kết nối:", error);
+      alert("Không thể kết nối tới server");
+    }
+  };
+
   return (
     <div className="relative w-full max-w-sm p-8 bg-teal-900/90 rounded-2xl shadow-2xl border-2 border-teal-700/50">
       <button
@@ -22,35 +70,59 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onClose, onToggleMode }) =>
         Đăng ký tại đây
       </h2>
 
-      <form onSubmit={(e) => { e.preventDefault(); console.log('Đăng ký'); }}>
+      <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <input
+            name="name"
             type="text"
-            placeholder="Điền vào tên đăng nhập"
+            placeholder="Tên người dùng"
             className="w-full px-4 py-3 bg-gray-900/70 text-white placeholder-gray-500 rounded-xl border border-teal-700 focus:outline-none focus:ring-1 focus:ring-teal-400 focus:border-teal-400"
             required
+            onChange={handleChange}
           />
         </div>
 
         <div className="mb-4">
           <input
-            type="password"
-            placeholder="Điền vào mật khẩu"
+            name="email"
+            type="email"
+            placeholder="Email"
             className="w-full px-4 py-3 bg-gray-900/70 text-white placeholder-gray-500 rounded-xl border border-teal-700 focus:outline-none focus:ring-1 focus:ring-teal-400 focus:border-teal-400"
             required
+            onChange={handleChange}
+          />
+        </div>
+
+        <div className="mb-4">
+          <input
+            name="password"
+            type="password"
+            placeholder="Mật khẩu"
+            className="w-full px-4 py-3 bg-gray-900/70 text-white placeholder-gray-500 rounded-xl border border-teal-700 focus:outline-none focus:ring-1 focus:ring-teal-400 focus:border-teal-400"
+            required
+            onChange={handleChange}
           />
         </div>
 
         <div className="mb-6">
           <input
+            name="confirmPassword"
             type="password"
             placeholder="Nhập lại mật khẩu"
             className="w-full px-4 py-3 bg-gray-900/70 text-white placeholder-gray-500 rounded-xl border border-teal-700 focus:outline-none focus:ring-1 focus:ring-teal-400 focus:border-teal-400"
             required
+            onChange={handleChange}
           />
         </div>
 
-        <p className="text-center text-sm mb-8">
+        <button
+          type="submit"
+          className="w-full bg-teal-500 text-white font-bold py-3 px-4 rounded-full shadow-lg hover:bg-teal-400 transition duration-200 mb-4"
+        >
+          Đăng Ký
+        </button>
+
+        <p className="text-center text-sm text-gray-300 mb-8">
           <a
             href="#"
             className="text-red-500 font-medium hover:text-red-400 transition duration-150"
@@ -63,7 +135,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onClose, onToggleMode }) =>
 
         <div className="flex items-center my-6">
           <hr className="flex-grow border-gray-600" />
-          <span className="mx-4 text-white font-semibold">Hoặc</span>
+          <span className="mx-4 text-white font-semibold text-sm">Hoặc</span>
           <hr className="flex-grow border-gray-600" />
         </div>
 
