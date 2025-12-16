@@ -4,120 +4,147 @@ import CategorySection from "@/app/ui/CategorySection";
 import LeaderBoard from "@/app/ui/LeaderBoard";
 import { Player,Category } from "@/app/ui/types";
 interface Game {
-  image: string;
+  thumbnail: string;
   video: string;
-  title: string;
-  href: string;
+  name: string;
+  slug: string;
   currentPlaying: number;
 }
 
 const sampleGames: Game[] = [
   {
-    image:
+    thumbnail:
       "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
     video:
       "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
-    title: "YoHoHo.io",
-    href: "/g/yohoho-io",
+    name: "YoHoHo.io",
+    slug: "/g/yohoho-io",
     currentPlaying: 1500,
   },
   {
-    image:
+    thumbnail:
       "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
     video:
       "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
-    title: "YoHoHo.io",
-    href: "/g/yohoho-io",
+    name: "YoHoHo.io",
+    slug: "/g/yohoho-io",
     currentPlaying: 1500,
   },
   {
-    image:
+    thumbnail:
       "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
     video:
       "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
-    title: "YoHoHo.io",
-    href: "/g/yohoho-io",
+    name: "YoHoHo.io",
+    slug: "/g/yohoho-io",
     currentPlaying: 1500,
   },
   {
-    image:
+    thumbnail:
       "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
     video:
       "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
-    title: "YoHoHo.io",
-    href: "/g/yohoho-io",
+    name: "YoHoHo.io",
+    slug: "/g/yohoho-io",
     currentPlaying: 1500,
   },
   {
-    image:
+    thumbnail:
       "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
     video:
       "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
-    title: "YoHoHo.io",
-    href: "/g/yohoho-io",
+    name: "YoHoHo.io",
+    slug: "/g/yohoho-io",
     currentPlaying: 1500,
   },
   {
-    image:
+    thumbnail:
       "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
     video:
       "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
-    title: "YoHoHo.io",
-    href: "/g/yohoho-io",
+    name: "YoHoHo.io",
+    slug: "/g/yohoho-io",
     currentPlaying: 1500,
   },
   {
-    image:
+    thumbnail:
       "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
     video:
       "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
-    title: "YoHoHo.io",
-    href: "/g/yohoho-io",
+    name: "YoHoHo.io",
+    slug: "/g/yohoho-io",
     currentPlaying: 1500,
   },
   {
-    image:
+    thumbnail:
       "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
     video:
       "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
-    title: "YoHoHo.io",
-    href: "/g/yohoho-io",
+    name: "YoHoHo.io",
+    slug: "/g/yohoho-io",
     currentPlaying: 1500,
   },
   {
-    image:
+    thumbnail:
       "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
     video:
       "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
-    title: "YoHoHo.io",
-    href: "/g/yohoho-io",
+    name: "YoHoHo.io",
+    slug: "/g/yohoho-io",
     currentPlaying: 1500,
   },
   {
-    image:
+    thumbnail:
       "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
     video:
       "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
-    title: "YoHoHo.io",
-    href: "/g/yohoho-io",
+    name: "YoHoHo.io",
+    slug: "/g/yohoho-io",
     currentPlaying: 1500,
   },
   {
-    image:
+    thumbnail:
       "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
     video:
       "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
-    title: "YoHoHo.io",
-    href: "/g/yohoho-io",
+    name: "YoHoHo.io",
+    slug: "/g/yohoho-io",
     currentPlaying: 1500,
   },
   {
-    image:
+    thumbnail:
       "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
     video:
       "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
-    title: "YoHoHo.io",
-    href: "/g/yohoho-io",
+    name: "YoHoHo.io",
+    slug: "/g/yohoho-io",
+    currentPlaying: 1500,
+  },
+  {
+    thumbnail:
+      "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
+    video:
+      "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
+    name: "YoHoHo.io",
+    slug: "/g/yohoho-io",
+    currentPlaying: 1500,
+  },
+  {
+    thumbnail:
+      "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
+    video:
+      "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
+    name: "YoHoHo.io",
+    slug: "/g/yohoho-io",
+    currentPlaying: 1500,
+  },
+  {
+    thumbnail:
+      "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
+    video:
+      "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
+    name: "YoHoHo.io",
+    slug: "/g/yohoho-io",
     currentPlaying: 1500,
   },
   

@@ -2,10 +2,10 @@ import Image from "next/image";
 import GameCardV2 from "./GameCardV2"; 
 import Link from "next/link";
 interface GameData {
-    image: string;
+    thumbnail: string;
     video: string;
-    title: string;
-    href: string;
+    name: string;
+    slug: string;
     currentPlaying: number;
 }
 interface CategorySectionProps {

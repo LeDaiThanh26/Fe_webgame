@@ -9,13 +9,13 @@ type Props = {
   image: string;
   video: string;
   title: string;
-  href: string;
+  slug: string;
   issidebar?: boolean;
   isRecentPlay?: boolean;
 };
 
 const GameCard = forwardRef<HTMLDivElement, Props>(
-  ({ image, video, title, href, issidebar = false,isRecentPlay=false}, ref) => {
+  ({ image, video, title, slug, issidebar = false,isRecentPlay=false}, ref) => {
     const [isHovered, setIsHovered] = useState(false);
     const router = useRouter();
 
@@ -29,7 +29,7 @@ const GameCard = forwardRef<HTMLDivElement, Props>(
           shadow-md `}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        onClick={() => router.push(href)}
+        onClick={() => router.push(slug)}
       >
         {isHovered ? (
           <>
