@@ -1,8 +1,15 @@
 "use client"
-import {useState,useEffect} from 'react'
+import { useState, useEffect } from 'react'
 import { Search, ChevronLeft, X} from "lucide-react"
 import GameCard from "./GameCard"
 
+type FavouriteGame = {
+    _id: string;
+    name: string;
+    thumbnail: string;
+    video: string;
+    slug: string;
+}
 
 export default function Sidebar({
         isMobile,
@@ -16,26 +23,138 @@ export default function Sidebar({
 
 ){
     const [searchQuery, setSearchQuery] = useState("")
+    const [favouriteGames, setFavouriteGames] = useState<FavouriteGame[]>([])
+    const [recommendedGames, setRecommendedGames] = useState<FavouriteGame[]>([])
+    const [searchResults, setSearchResults] = useState<FavouriteGame[]>([])
+    const [isSearching, setIsSearching] = useState(false)
+
     // ---- KHOÁ SCROLL KHI MỞ SIDEBAR ----
     useEffect(() => {
         document.body.style.overflow = isSearchOpen ? "hidden" : "auto"
     }, [isSearchOpen])
 
+    // ---- LẤY GAME GẦN ĐÂY (mock) ----
     const recentGames = [...Array(12)].map((_, i) => ({
         image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
         video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
         title: "Game " + (i + 1),
-        href: "#",
+        slug: "#",
         issidebar: true,
         isRecentPlay:true
     }))
-    const PopularGames = [...Array(12)].map((_, i) => ({
-        image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
-        video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
-        title: "Game " + (i + 1),
-        href: "#",
-        issidebar: true,
-    }))
+
+    // ---- LẤY GAME YÊU THÍCH CỦA USER ĐANG ĐĂNG NHẬP ----
+    useEffect(() => {
+        const fetchFavouriteGames = async () => {
+            const token = typeof window !== "undefined" ? localStorage.getItem('token') : null
+            if (!token) return
+
+            try {
+                // Lấy thông tin user hiện tại
+                const userRes = await fetch('http://localhost:5000/api/users/me', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                })
+                if (!userRes.ok) return
+
+                const user = await userRes.json()
+
+                // Lấy danh sách favourite của user
+                const favRes = await fetch(`http://localhost:5000/api/favourites/user/${user._id}`)
+                if (!favRes.ok) return
+
+                const favData = await favRes.json()
+                const games: FavouriteGame[] = favData.data
+                    .map((f: any) => f.id_game)
+                    .filter((g: any) => !!g && g.thumbnail && g.slug)
+                    .map((g: any) => ({
+                        _id: g._id,
+                        name: g.name,
+                        thumbnail: g.thumbnail,
+                        video: g.video,
+                        slug: g.slug,
+                    }))
+
+                setFavouriteGames(games)
+            } catch (error) {
+                console.error("Lỗi lấy game yêu thích:", error)
+            }
+        }
+
+        fetchFavouriteGames()
+    }, [])
+
+    // ---- LẤY 12 GAME ĐỀ XUẤT NGẪU NHIÊN ----
+    useEffect(() => {
+        const fetchRandomGames = async () => {
+            try {
+                const res = await fetch('http://localhost:5000/api/games/random-12', {
+                    cache: 'no-store'
+                })
+                if (!res.ok) return
+                const json = await res.json()
+                const games: FavouriteGame[] = (json.data || [])
+                    .filter((g: any) => g.thumbnail && g.slug)
+                    .map((g: any) => ({
+                        _id: g._id,
+                        name: g.name,
+                        thumbnail: g.thumbnail,
+                        video: g.video,
+                        slug: g.slug,
+                    }))
+                setRecommendedGames(games)
+            } catch (err) {
+                console.error("Lỗi lấy game đề xuất:", err)
+            }
+        }
+
+        fetchRandomGames()
+    }, [])
+
+    // ---- TÌM KIẾM GAME THEO TÊN ----
+    useEffect(() => {
+        // nếu không có query thì clear kết quả tìm kiếm
+        if (!searchQuery.trim()) {
+            setSearchResults([])
+            setIsSearching(false)
+            return
+        }
+
+        let active = true
+        const timeout = setTimeout(async () => {
+            try {
+                setIsSearching(true)
+                const res = await fetch('http://localhost:5000/api/games/')
+                if (!res.ok) return
+                const json = await res.json()
+
+                const allGames = json.data || []
+                const q = searchQuery.toLowerCase()
+
+                const filtered: FavouriteGame[] = allGames
+                    .filter((g: any) => g.name?.toLowerCase().includes(q))
+                    .map((g: any) => ({
+                        _id: g._id,
+                        name: g.name,
+                        thumbnail: g.thumbnail,
+                        video: g.video,
+                        slug: g.slug,
+                    }))
+
+                if (active) {
+                    setSearchResults(filtered)
+                }
+            } catch (err) {
+                console.error("Lỗi tìm kiếm game:", err)
+            } finally {
+                if (active) setIsSearching(false)
+            }
+        }, 400) // debounce 400ms
+
+        return () => {
+            active = false
+            clearTimeout(timeout)
+        }
+    }, [searchQuery])
     return (
         <>
             {/* ---------- OVERLAY (CLICK ĐỂ ĐÓNG) ---------- */}
@@ -55,7 +174,7 @@ export default function Sidebar({
                     ${isMobile ? 'w-full' : 'w-[700px]'}
                 `}
             >
-                <div className="flex flex-col h-full p-6">
+                <div className="flex flex-col h-full p-6 overflow-y-auto no-scrollbar">
                     {/* Search box */}
                     <div className="mb-8">
                         <div className="relative bg-white rounded-full shadow-lg mr-6">
@@ -66,7 +185,7 @@ export default function Sidebar({
                             </div>
                             <input
                                 type="text"
-                                placeholder="What are you playing today?"
+                                placeholder="Bạn muốn tìm game gì?"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 className="w-full pl-16 pr-14 py-4 rounded-full focus:outline-none font-bold text-black-500"
@@ -91,26 +210,96 @@ export default function Sidebar({
                             <ChevronLeft size={28} className="text-[#002B50]" />
                         </button>
                         )}
-                    
-                
-                    {/* Recently Played */}
-                    <div>
-                        <h2 className="text-2xl font-bold text-[#002B50] mb-4">Recently played</h2>
-                        <div className="grid grid-cols-6 gap-5">
-                            {recentGames.map((game, index) => (
-                                <GameCard key={index} {...game} />
-                            ))}
+
+                    {/* Nếu đang tìm kiếm thì show kết quả search, ngược lại show Recently + Yêu thích */}
+                    {searchQuery.trim() ? (
+                        <div className="flex-1 overflow-y-auto">
+                            <h2 className="text-2xl font-bold text-[#002B50] mb-4">
+                                Kết quả tìm kiếm
+                            </h2>
+                            {isSearching && (
+                                <p className="text-sm text-[#002B50] mb-2">Đang tìm kiếm...</p>
+                            )}
+                            {!isSearching && searchResults.length === 0 && (
+                                <p className="text-sm text-[#002B50] mb-2">
+                                    Không tìm thấy game nào phù hợp.
+                                </p>
+                            )}
+                            <div className="grid grid-cols-6 gap-4">
+                                {searchResults.map((game) => (
+                                    <GameCard
+                                        key={game._id}
+                                        image={game.thumbnail}
+                                        video={game.video}
+                                        title={game.name}
+                                        slug={game.slug}
+                                        issidebar={true}
+                                    />
+                                ))}
+                            </div>
                         </div>
-                    </div>
-                    <div>
-                        <h2 className="text-2xl mt-10 font-bold text-[#002B50] mb-4">Popular this week
-                        </h2>
-                        <div className="grid grid-cols-6 gap-2">
-                            {PopularGames.map((game, index) => (
-                                <GameCard key={index} {...game} />
-                            ))}
-                        </div>
-                    </div>
+                    ) : (
+                        <>
+                            {/* Recently Played */}
+                            <div>
+                                <h2 className="text-2xl font-bold text-[#002B50] mb-4">Game vừa chơi</h2>
+                                <div className="grid grid-cols-6 gap-5">
+                                    {recentGames.map((game, index) => (
+                                        <GameCard key={index} {...game} />
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Game đề xuất (random 12) */}
+                            <div>
+                                <h2 className="text-2xl mt-10 font-bold text-[#002B50] mb-4">
+                                    Game đề xuất
+                                </h2>
+                                {recommendedGames.length === 0 ? (
+                                    <p className="text-sm text-[#002B50]">
+                                        Đang tải danh sách game đề xuất...
+                                    </p>
+                                ) : (
+                                    <div className="grid grid-cols-6 gap-2">
+                                        {recommendedGames.map((game) => (
+                                            <GameCard
+                                                key={game._id}
+                                                image={game.thumbnail}
+                                                video={game.video}
+                                                title={game.name}
+                                                slug={game.slug}
+                                                issidebar={true}
+                                            />
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Game yêu thích */}
+                            <div>
+                                <h2 className="text-2xl mt-10 font-bold text-[#002B50] mb-4">Game yêu thích
+                                </h2>
+                                {favouriteGames.length === 0 ? (
+                                    <p className="text-sm text-[#002B50]">
+                                        Bạn chưa có game yêu thích nào.
+                                    </p>
+                                ) : (
+                                    <div className="grid grid-cols-6 gap-2">
+                                        {favouriteGames.map((game) => (
+                                            <GameCard
+                                                key={game._id}
+                                                image={game.thumbnail}
+                                                video={game.video}
+                                                title={game.name}
+                                                slug={game.slug}
+                                                issidebar={true}
+                                            />
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        </>
+                    )}
                 </div>
             </div>
         </>
