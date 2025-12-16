@@ -1,6 +1,6 @@
 "use client"
 import { useState, useEffect } from 'react'
-import { Search, ChevronLeft, X} from "lucide-react"
+import { Search, ChevronLeft, X } from "lucide-react"
 import GameCard from "./GameCard"
 
 type FavouriteGame = {
@@ -12,16 +12,16 @@ type FavouriteGame = {
 }
 
 export default function Sidebar({
-        isMobile,
-        isSearchOpen,
-        setIsSearchOpen
-    }:{
-        isMobile:boolean,
-        isSearchOpen:boolean,
-        setIsSearchOpen:React.Dispatch<React.SetStateAction<boolean>>;
-    }
+    isMobile,
+    isSearchOpen,
+    setIsSearchOpen
+}: {
+    isMobile: boolean,
+    isSearchOpen: boolean,
+    setIsSearchOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-){
+) {
     const [searchQuery, setSearchQuery] = useState("")
     const [favouriteGames, setFavouriteGames] = useState<FavouriteGame[]>([])
     const [recommendedGames, setRecommendedGames] = useState<FavouriteGame[]>([])
@@ -33,19 +33,12 @@ export default function Sidebar({
         document.body.style.overflow = isSearchOpen ? "hidden" : "auto"
     }, [isSearchOpen])
 
-    // ---- LẤY GAME GẦN ĐÂY (mock) ----
-    const recentGames = [...Array(12)].map((_, i) => ({
-        image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
-        video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
-        title: "Game " + (i + 1),
-        slug: "#",
-        issidebar: true,
-        isRecentPlay:true
-    }))
+    // ---- LẤY GAME GẦN ĐÂY (state) ----
+    const [recentGames, setRecentGames] = useState<FavouriteGame[]>([])
 
-    // ---- LẤY GAME YÊU THÍCH CỦA USER ĐANG ĐĂNG NHẬP ----
+    // ---- LẤY DATA USER (Recent + Favourite) ----
     useEffect(() => {
-        const fetchFavouriteGames = async () => {
+        const fetchUserData = async () => {
             const token = typeof window !== "undefined" ? localStorage.getItem('token') : null
             if (!token) return
 
@@ -58,29 +51,70 @@ export default function Sidebar({
 
                 const user = await userRes.json()
 
-                // Lấy danh sách favourite của user
-                const favRes = await fetch(`http://localhost:5000/api/favourites/user/${user._id}`)
-                if (!favRes.ok) return
+                // [1] Lấy danh sách favourite
+                try {
+                    const favRes = await fetch(`http://localhost:5000/api/favourites/user/${user._id}`)
+                    if (favRes.ok) {
+                        const favData = await favRes.json()
+                        const games: FavouriteGame[] = favData.data
+                            .map((f: any) => f.id_game)
+                            .filter((g: any) => !!g && g.thumbnail && g.slug)
+                            .map((g: any) => ({
+                                _id: g._id,
+                                name: g.name,
+                                thumbnail: g.thumbnail,
+                                video: g.video,
+                                slug: g.slug,
+                            }))
+                        setFavouriteGames(games)
+                    }
+                } catch (err) {
+                    console.error("Lỗi lấy game yêu thích:", err)
+                }
 
-                const favData = await favRes.json()
-                const games: FavouriteGame[] = favData.data
-                    .map((f: any) => f.id_game)
-                    .filter((g: any) => !!g && g.thumbnail && g.slug)
-                    .map((g: any) => ({
-                        _id: g._id,
-                        name: g.name,
-                        thumbnail: g.thumbnail,
-                        video: g.video,
-                        slug: g.slug,
-                    }))
+                // [2] Lấy danh sách game gần đây (NEW)
+                try {
+                    console.log("Fetching recents for user:", user._id);
+                    const recentsRes = await fetch(`http://localhost:5000/api/recents/${user._id}`)
+                    console.log("Recents API status:", recentsRes.status);
 
-                setFavouriteGames(games)
+                    if (recentsRes.ok) {
+                        const recentsData = await recentsRes.json()
+                        console.log("Recents API raw response:", recentsData);
+
+                        // Xử lý trường hợp API trả về mảng trực tiếp hoặc object { data: [...] }
+                        const rawList = Array.isArray(recentsData) ? recentsData : (recentsData.data || []);
+
+                        const games: FavouriteGame[] = rawList
+                            .map((r: any) => {
+                                // Kiểm tra cấu trúc populate, có thể là r.id_game, r.game, hoặc r chính là game
+                                const gameInfo = r.id_game || r.game || r;
+                                return gameInfo;
+                            })
+                            .filter((g: any) => !!g && g.thumbnail && g.slug)
+                            .map((g: any) => ({
+                                _id: g._id,
+                                name: g.name,
+                                thumbnail: g.thumbnail,
+                                video: g.video,
+                                slug: g.slug,
+                            }))
+
+                        console.log("Processed recent games list:", games);
+                        setRecentGames(games)
+                    } else {
+                        console.error("Failed to fetch recents:", recentsRes.statusText);
+                    }
+                } catch (err) {
+                    console.error("Lỗi exception lấy game gần đây:", err)
+                }
+
             } catch (error) {
-                console.error("Lỗi lấy game yêu thích:", error)
+                console.error("Lỗi lấy thông tin user:", error)
             }
         }
 
-        fetchFavouriteGames()
+        fetchUserData()
     }, [])
 
     // ---- LẤY 12 GAME ĐỀ XUẤT NGẪU NHIÊN ----
@@ -190,7 +224,7 @@ export default function Sidebar({
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 className="w-full pl-16 pr-14 py-4 rounded-full focus:outline-none font-bold text-black-500"
                             />
-                            <button 
+                            <button
                                 className="absolute cursor-pointer right-5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
                                 onClick={() => setSearchQuery("")}
                             >
@@ -198,8 +232,8 @@ export default function Sidebar({
                             </button>
                         </div>
                     </div>
-                
-                    {isSearchOpen  &&(
+
+                    {isSearchOpen && (
                         <button
                             onClick={() => {
                                 setIsSearchOpen(false)
@@ -209,7 +243,7 @@ export default function Sidebar({
                         >
                             <ChevronLeft size={28} className="text-[#002B50]" />
                         </button>
-                        )}
+                    )}
 
                     {/* Nếu đang tìm kiếm thì show kết quả search, ngược lại show Recently + Yêu thích */}
                     {searchQuery.trim() ? (
@@ -240,19 +274,9 @@ export default function Sidebar({
                         </div>
                     ) : (
                         <>
-                            {/* Recently Played */}
+                            {/* Game đề xuất (random 12) - Moved to Top */}
                             <div>
-                                <h2 className="text-2xl font-bold text-[#002B50] mb-4">Game vừa chơi</h2>
-                                <div className="grid grid-cols-6 gap-5">
-                                    {recentGames.map((game, index) => (
-                                        <GameCard key={index} {...game} />
-                                    ))}
-                                </div>
-                            </div>
-
-                            {/* Game đề xuất (random 12) */}
-                            <div>
-                                <h2 className="text-2xl mt-10 font-bold text-[#002B50] mb-4">
+                                <h2 className="text-2xl font-bold text-[#002B50] mb-4">
                                     Game đề xuất
                                 </h2>
                                 {recommendedGames.length === 0 ? (
@@ -269,6 +293,30 @@ export default function Sidebar({
                                                 title={game.name}
                                                 slug={game.slug}
                                                 issidebar={true}
+                                            />
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Recently Played - Moved to Second */}
+                            <div>
+                                <h2 className="text-2xl mt-10 font-bold text-[#002B50] mb-4">Game vừa chơi</h2>
+                                {recentGames.length === 0 ? (
+                                    <p className="text-sm text-[#002B50] col-span-6">
+                                        Chưa có game chơi gần đây.
+                                    </p>
+                                ) : (
+                                    <div className="grid grid-cols-6 gap-5">
+                                        {recentGames.map((game) => (
+                                            <GameCard
+                                                key={game._id}
+                                                image={game.thumbnail}
+                                                video={game.video}
+                                                title={game.name}
+                                                slug={game.slug}
+                                                issidebar={true}
+                                                isRecentPlay={true}
                                             />
                                         ))}
                                     </div>
@@ -303,6 +351,6 @@ export default function Sidebar({
                 </div>
             </div>
         </>
-        
+
     )
 }
