@@ -2,7 +2,7 @@ import React from 'react';
 import { ArrowUp } from "lucide-react";
 import CommentsSection from '../ui/Detail/CommentsSection';
 import SimilarGames from '../ui/Detail/SimilarGames';
-
+import Favourites from '../ui/Detail/Favourite';
 async function getGameData(slug: string) {
     const res = await fetch(`http://localhost:5000/api/games/${slug}`, {
         cache: 'no-store'
@@ -84,6 +84,38 @@ const GameDetails = async ({ params }: { params: { slug: string } }) => {
         .game-thumb img { width: 100%; height: 100%; object-fit: cover; }
         .pagination { display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px; font-size: 12px; }
         @media (max-width: 768px) { .bottom-layout { flex-direction: column; } }
+        .btn-love {
+            border: 1px solid #ddd;
+            background: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: #333;
+        }
+
+        .btn-love:hover {
+            background-color: #fff1f1;
+            border-color: #ff4d4d;
+            color: #ff4d4d;
+        }
+
+        /* Trạng thái khi đã thêm vào yêu thích */
+        .btn-love.active {
+            background-color: #ff4d4d;
+            color: white;
+            border-color: #ff4d4d;
+            box-shadow: 0 2px 8px rgba(255, 77, 77, 0.4);
+        }
+
+        .btn-love.active:hover {
+            background-color: #e60000;
+        }
     `;
 
     return (
@@ -94,7 +126,7 @@ const GameDetails = async ({ params }: { params: { slug: string } }) => {
                 <div className="card">
                     <div className="header-row">
                         <h1>{data.name}</h1>
-                        <button className="btn-love">Yêu thích &hearts;</button>
+                        <Favourites id_game={data._id} />
                     </div>
 
                     <div className="game-iframe-container">
