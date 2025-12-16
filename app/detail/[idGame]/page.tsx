@@ -1,17 +1,25 @@
 import React from 'react';
 import { ArrowUp } from "lucide-react";
 
-async function getGameData() {
-    const res = await fetch('http://localhost:5000/api/games/694106be44a9284db299f28d', {
+// 1. Chuyển hàm fetch vào bên trong hoặc truyền id vào làm đối số
+async function getGameData(idGame: string) {
+    const res = await fetch(`http://localhost:5000/api/games/${idGame}`, {
         cache: 'no-store'
     });
-    if (!res.ok) throw new Error('Failed to fetch data');
+    if (!res.ok) return null; // Trả về null nếu không tìm thấy game
     const json = await res.json();
     return json.data;
 }
 
-const SlitherioDetails = async () => {
-    const data = await getGameData();
+// 2. Component nhận { params } từ Next.js App Router
+const SlitherioDetails = async ({ params }: { params: { idGame: string } }) => {
+    console.log("Đang lấy dữ liệu cho game ID:", params.idGame);
+    const { idGame } = await params; 
+    console.log("ID nhận được từ URL:", idGame);
+    const data = await getGameData(idGame);
+    if (!data) {
+        return <div className="details-body">Không tìm thấy dữ liệu cho ID: {idGame}</div>;
+    }
 
     const comments = [
         { id: 1, user: "manh.nguyenan0308", time: "1 năm trước", text: "13/3/24 Có ai còn nghe k!!!", likes: 165, avatarText: "A", avatarBg: "#333" },
@@ -35,17 +43,14 @@ const SlitherioDetails = async () => {
             --border-color: #e5e5e5;
             --green-btn: #4CAF50;
         }
-        .details-body { background-color: var(--primary-bg); color: var(--text-color); padding: 20px; display: flex; justify-content: center; }
+        .details-body { background-color: var(--primary-bg); color: var(--text-color); padding: 20px; display: flex; justify-content: center; min-height: 100vh; }
         .container { width: 100%; max-width: 1000px; display: flex; flex-direction: column; gap: 20px; }
         .card { background-color: var(--white); border-radius: 8px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
         .header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         .header-row h1 { font-size: 24px; font-weight: bold; }
         .btn-love { border: 1px solid #ddd; background: white; padding: 5px 15px; border-radius: 20px; cursor: pointer; font-size: 14px; display: flex; align-items: center; gap: 5px; }
-        .game-player { background-color: #1a1a1a; width: 100%; height: 400px; border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; color: white; }
-        .game-player .logo { font-size: 40px; font-weight: bold; margin-bottom: 20px; color: #bfa; text-shadow: 0 0 10px #fff; }
-        .game-player .logo span { color: #a4508b; }
-        .play-btn { background-color: var(--green-btn); color: white; border: none; padding: 10px 40px; border-radius: 20px; font-size: 16px; cursor: pointer; margin-top: 10px; text-decoration: none; }
-        .input-name { background: #444; border: none; padding: 8px 20px; border-radius: 20px; color: white; width: 200px; text-align: center; }
+        .game-iframe-container { width: 100%; height: 600px; border: none; border-radius: 4px; overflow: hidden; background: #000; }
+        .game-iframe { width: 100%; height: 100%; border: none; }
         .breadcrumb { font-size: 12px; color: #888; margin: 15px 0 10px 0; }
         .game-title-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .game-title-row h2 { font-size: 20px; }
@@ -74,26 +79,11 @@ const SlitherioDetails = async () => {
         .user-name { font-weight: bold; font-size: 13px; margin-bottom: 2px; }
         .comment-time { font-size: 11px; color: #999; margin-left: 5px; font-weight: normal; }
         .comment-text { font-size: 13px; margin-bottom: 5px; line-height: 1.4; }
-        .comment-actions { font-size: 12px; color: #666; display: flex; gap: 15px; }
         .similar-game-list { display: flex; flex-direction: column; gap: 10px; }
         .game-thumb { width: 100%; height: 80px; border-radius: 8px; overflow: hidden; position: relative; }
         .game-thumb img { width: 100%; height: 100%; object-fit: cover; }
         .pagination { display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px; font-size: 12px; }
         @media (max-width: 768px) { .bottom-layout { flex-direction: column; } }
-        .game-iframe-container {
-            width: 100%;
-            height: 600px; /* Bạn có thể điều chỉnh chiều cao tùy ý */
-            border: none;
-            border-radius: 4px;
-            overflow: hidden;
-            background: #000;
-        }
-
-        .game-iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }                                                                           
     `;
 
     return (
@@ -138,9 +128,7 @@ const SlitherioDetails = async () => {
                     </table>
 
                     <div className="section-title">Mô tả</div>
-                    <p className="description-text">
-                        {data.description}
-                    </p>
+                    <p className="description-text">{data.description}</p>
 
                     <div className="section-title">Cách chơi</div>
                     <p className="note-text">
@@ -149,7 +137,7 @@ const SlitherioDetails = async () => {
 
                     <div className="section-title">Hình ảnh trong game</div>
                     <div className="game-image-container">
-                        {data.image.map((imgUrl: string, index: number) => (
+                        {data.image?.map((imgUrl: string, index: number) => (
                             <img key={index} src={imgUrl} alt={`${data.name} screenshot ${index}`} />
                         ))}
                     </div>
@@ -158,39 +146,27 @@ const SlitherioDetails = async () => {
                 <div className="bottom-layout">
                     <div className="card left-column">
                         <div className="section-title" style={{ marginTop: 0 }}>Bình luận</div>
-
                         <div className="comment-header">
                             <span style={{ fontSize: '14px', fontWeight: 'normal' }}>2.022 bình luận</span>
                             <div className="sort-btn">
-                                Sắp xếp theo thời gian
-                                <ArrowUp size={14} />
+                                Sắp xếp theo thời gian <ArrowUp size={14} />
                             </div>
                         </div>
-
                         <div className="input-comment">
                             <div className="avatar-circle"><img src="https://placehold.co/30" alt="me" /></div>
                             <input type="text" className="input-field" placeholder="Viết bình luận..." />
                         </div>
-
                         {comments.map(comment => (
                             <div key={comment.id} className="comment-item">
                                 <div className="avatar-circle">
                                     <img src={`https://placehold.co/30/${comment.avatarBg.replace('#', '')}/fff?text=${comment.avatarText}`} alt="user" />
                                 </div>
                                 <div className="comment-content">
-                                    <div className="user-name">
-                                        {comment.user} <span className="comment-time">{comment.time}</span>
-                                    </div>
+                                    <div className="user-name">{comment.user} <span className="comment-time">{comment.time}</span></div>
                                     <div className="comment-text" dangerouslySetInnerHTML={{ __html: comment.text }}></div>
                                 </div>
                             </div>
                         ))}
-
-                        <div className="pagination">
-                            <span>Trang 1/2</span>
-                            <span>&lt;</span>
-                            <span>&gt;</span>
-                        </div>
                     </div>
 
                     <div className="card right-column">
