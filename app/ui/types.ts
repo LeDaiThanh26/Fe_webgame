@@ -10,7 +10,7 @@ export type Player = {
     image: string;
     video: string;
     title: string;
-    href: string;
+    slug: string;
   };
   
   export type Category = {

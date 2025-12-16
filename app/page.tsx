@@ -1,30 +1,59 @@
 "use client"
 import GameCategoriesSection from "@/app/ui/GameCategoriesSection";
 import CategorySection from "@/app/ui/CategorySection";
-import { Player,Category } from "./ui/types";
+import { Player, Category } from "./ui/types";
 import LeaderBoard from "./ui/LeaderBoard";
 import Image from "next/image";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
+
 export default function Home() {
   const [games, setGames] = useState([]);
   const [Shootinggames, setShootinggames] = useState([]);
   const [Drivinggames, setDrivinggames] = useState([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/games/')
+    // Fetch random 12 games
+    fetch('http://localhost:5000/api/games/random-12')
       .then(res => res.json())
       .then(data => setGames(data.data))
       .catch(err => console.error(err));
-    fetch('http://localhost:5000/api/games/shooter-game')
+    
+    // Fetch shooter games
+    fetch('http://localhost:5000/api/games/shooter')
       .then(res => res.json())
       .then(data => setShootinggames(data.data))
       .catch(err => console.error(err));
-    fetch('http://localhost:5000/api/games/racing-game')
+    
+    // Fetch racing games
+    fetch('http://localhost:5000/api/games/racing')
       .then(res => res.json())
       .then(data => setDrivinggames(data.data))
       .catch(err => console.error(err));
+    
+    // Fetch all categories with games
+    fetch('http://localhost:5000/api/games/allcategory')
+      .then(res => res.json())
+      .then(data => {
+        console.log('Categories response:', data); // Debug log
+        // API trả về { data: [...] }
+        if (data.data && Array.isArray(data.data)) {
+          setCategories(data.data);
+        } else if (Array.isArray(data)) {
+          setCategories(data);
+        } else {
+          console.error('Categories data is not an array:', data);
+          setCategories([]);
+        }
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error('Error fetching categories:', err);
+        setCategories([]);
+        setLoading(false);
+      });
   }, []);
-  /// đoạn ni là call api ra mảng dữ liệu
   
   const mockPlayers: Player[] = [
     {
@@ -77,204 +106,52 @@ export default function Home() {
       avatar: "https://tse4.mm.bing.net/th/id/OIP.ByOuElmqwpS6F9ScgWwBvAHaHa"
     },
   ];
-  const mockCategories: Category[] = [
-    {
-      id: "driving",
-      image: "https://tse1.mm.bing.net/th/id/OIP.qzRrYOwUN9_HkeIlbOBDCwHaEo?cb=ucfimg2&ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3",
-      title: "Driving",
-      color: "#0EA5E9",
-      games: [
-        {
-          id: "yohoho-1",
-          image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
-          video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
-          title: "YoHoHo.io",
-          href: "/en/g/yohoho-io"
-        },
-        {
-          id: "yohoho-2",
-          image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
-          video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
-          title: "YoHoHo.io",
-          href: "/en/g/yohoho-io"
-        },
-        {
-          id: "yohoho-3",
-          image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
-          video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
-          title: "YoHoHo.io",
-          href: "/en/g/yohoho-io"
-        },
-        {
-          id: "yohoho-4",
-          image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
-          video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
-          title: "YoHoHo.io",
-          href: "/en/g/yohoho-io"
-        },
-        {
-          id: "yohoho-5",
-          image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
-          video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
-          title: "YoHoHo.io",
-          href: "/en/g/yohoho-io"
-        },
-        {
-          id: "yohoho-6",
-          image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
-          video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
-          title: "YoHoHo.io",
-          href: "/en/g/yohoho-io"
-        }
-      ]
-    },
-    {
-      id: "for-girls",
-      image: "https://tse4.mm.bing.net/th/id/OIP.BjSEPZ5nXCnMDMqBBVzBhQHaD4?cb=ucfimg2&ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3",
-      title: "For Girls",
-      color: "#db61c9",
-      games: [
-        {
-          id: "girls-game-1",
-          image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
-          video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
-          title: "YoHoHo.io",
-          href: "/en/g/yohoho-io"
-        },
-        {
-          id: "girls-game-2",
-          image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
-          video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
-          title: "YoHoHo.io",
-          href: "/en/g/yohoho-io"
-        },
-        {
-          id: "girls-game-3",
-          image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
-          video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
-          title: "YoHoHo.io",
-          href: "/en/g/yohoho-io"
-        },
-        {
-          id: "girls-game-4",
-          image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
-          video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
-          title: "YoHoHo.io",
-          href: "/en/g/yohoho-io"
-        },
-        {
-          id: "girls-game-5",
-          image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
-          video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
-          title: "YoHoHo.io",
-          href: "/en/g/yohoho-io"
-        },
-        {
-          id: "girls-game-6",
-          image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
-          video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
-          title: "YoHoHo.io",
-          href: "/en/g/yohoho-io"
-        }
-      ]
-    },
-    {
-      id: "shooting",
-      image: "https://th.bing.com/th/id/R.a64fd915a34c87e9a2c3d2e0f74109fb?rik=kZtUnnEipprgyw&pid=ImgRaw&r=0",
-      title: "Shooting",
-      color: "#b88b1e",
-      games: [
-        {
-          id: "shooting-game-1",
-          image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
-          video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
-          title: "YoHoHo.io",
-          href: "/en/g/yohoho-io"
-        },
-        {
-          id: "shooting-game-2",
-          image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
-          video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
-          title: "YoHoHo.io",
-          href: "/en/g/yohoho-io"
-        },
-        {
-          id: "shooting-game-3",
-          image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
-          video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
-          title: "YoHoHo.io",
-          href: "/en/g/yohoho-io"
-        },
-        {
-          id: "shooting-game-4",
-          image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
-          video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
-          title: "YoHoHo.io",
-          href: "/en/g/yohoho-io"
-        },
-        {
-          id: "shooting-game-5",
-          image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
-          video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
-          title: "YoHoHo.io",
-          href: "/en/g/yohoho-io"
-        },
-        {
-          id: "shooting-game-6",
-          image: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=204,height=204,fit=cover,f=auto/9b373b5219cd66a82389d81d7cda8e23/yohoho-io.jpeg",
-          video: "https://v.poki-cdn.com/e89995ba-0b2e-4dde-b1e0-e10f4897a168/thumbnail.2x2.vp9.mp4",
-          title: "YoHoHo.io",
-          href: "/en/g/yohoho-io"
-        }
-      ]
-    }
-  ];
-
 
   const handleViewAll = () => {
     console.log("Xem tất cả leaderboard");
     // Navigate hoặc open modal
   };
-  const handleNavigateCategory = (categoryId: string) => {
-    console.log(`Navigate to category: ${categoryId}`);
-    // router.push(`/category/${categoryId}`) hoặc mở modal
-  };
-
+  
 
 
   return (
-    <div className="flex flex-col gap-5 w-[1230px] ">
-      <GameCategoriesSection 
-          title="Online Games at GameZone"
-          categories={mockCategories}
-          onNavigateCategory={handleNavigateCategory}
-      />
+    <div className="flex flex-col gap-5 w-[1230px]">
+      {loading ? (
+        <div className="flex justify-center items-center py-10">
+          <p>Đang tải dữ liệu...</p>
+        </div>
+      ) : (
+        <>
+          <GameCategoriesSection 
+            title="Online Games at GameZone"
+            categories={categories}
+          />
 
-      <div className="flex w-full gap-7">
-          <div className="flex flex-col w-[72%] gap-7">
+          <div className="flex w-full gap-7">
+            <div className="flex flex-col w-[72%] gap-7">
               <CategorySection
-                  bannerSrc="/banner_gamehaynhat.png"
-                  altText="Game Hay Nhất"
-                  games={games}
-                  isGameHayNhat= {true}
+                bannerSrc="/banner_gamehaynhat.png"
+                altText="Game Hay Nhất"
+                games={games}
+                isGameHayNhat={true}
               />
               <CategorySection
-                  bannerSrc="/banner_gamebansung.png"
-                  altText="Game bắn súng"
-                  games={Shootinggames}
+                bannerSrc="/banner_gamebansung.png"
+                altText="Game bắn súng"
+                games={Shootinggames}
               />
               <CategorySection
-                  bannerSrc="/banner_gameduaxe.png"
-                  altText="Game đua xe"
-                  games={Drivinggames}
-                  // class={}
+                bannerSrc="/banner_gameduaxe.png"
+                altText="Game đua xe"
+                games={Drivinggames}
               />
-          </div>
-          <div className="flex flex-col w-[28%] gap-6">
-                <LeaderBoard 
-                  players={mockPlayers} 
-                  onViewAll={handleViewAll}
-                />
+            </div>
+            
+            <div className="flex flex-col w-[28%] gap-6">
+              <LeaderBoard 
+                players={mockPlayers} 
+                onViewAll={handleViewAll}
+              />
               <div className="bg-white shadow-[0_6px_16.3px_rgba(0,0,0,0.5)] rounded-[5px]">
                 <Image
                   src={"/banner_quangcao3.png"}
@@ -282,9 +159,7 @@ export default function Home() {
                   width={999}
                   height={999}
                   className="rounded-[5px]"
-                >
-                </Image>
-                
+                />
               </div>
               <div className="bg-white shadow-[0_6px_16.3px_rgba(0,0,0,0.5)] rounded-[5px]">
                 <Image
@@ -293,13 +168,12 @@ export default function Home() {
                   width={999}
                   height={999}
                   className="rounded-[5px]"
-                >
-                </Image>
-                
+                />
               </div>
+            </div>
           </div>
-      </div>
-      
+        </>
+      )}
     </div>
   );
 }
