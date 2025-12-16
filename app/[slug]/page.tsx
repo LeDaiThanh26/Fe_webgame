@@ -20,12 +20,6 @@ const GameDetails = async ({ params }: { params: { slug: string } }) => {
         return <div className="details-body">Không tìm thấy game: {slug}</div>;
     }
 
-    const comments = [
-        { id: 1, user: "manh.nguyenan0308", time: "1 năm trước", text: "13/3/24 Có ai còn nghe k!!!", likes: 165, avatarText: "A", avatarBg: "#333" },
-        { id: 2, user: "thanh.tranminh47262", time: "3 năm trước", text: "Ở kia, đang nghe thì mẹ kêu rửa bát :((<br>Sợ vãi=", likes: 1, avatarText: "B", avatarBg: "#900" },
-        { id: 3, user: "ngoc.huynhthi052", time: "1 năm trước", text: "Tôi nhớ lúc trước chú Ngạn sáng tác nhiều truyện ma lắm mà sao giờ tôi search chỉ có tầm chục đến 10 truyện", likes: 5, avatarText: "C", avatarBg: "#4CAF50" },
-    ];
-
     const cssStyles = `
         :root {
             --primary-bg: #f0f2f5;
@@ -181,7 +175,7 @@ const GameDetails = async ({ params }: { params: { slug: string } }) => {
                 </div>
 
                 <div className="bottom-layout">
-                    <CommentsSection comments={comments} />
+                    <CommentsSection idGame={data._id} />
                     <SimilarGames />
                 </div>
             </div>
