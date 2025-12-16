@@ -6,13 +6,21 @@ import LeaderBoard from "./ui/LeaderBoard";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 
+export async function generateAvatar(): Promise<string> {
+  const res = await fetch("https://api.waifu.pics/nsfw/waifu");
+  const data = await res.json();
+  return data.url;
+}
+
+
+
 export default function Home() {
   const [games, setGames] = useState([]);
   const [Shootinggames, setShootinggames] = useState([]);
   const [Drivinggames, setDrivinggames] = useState([]);
   const [categories, setCategories] = useState<Category[]>([]);
+  const [players, setPlayers] = useState<Player[]>([]);
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     // Fetch random 12 games
     fetch('http://localhost:5000/api/games/random-12')
@@ -55,57 +63,59 @@ export default function Home() {
       });
   }, []);
   
-  const mockPlayers: Player[] = [
-    {
-      rank: 1,
-      name: "Nguyễn Lâm Phong",
-      experiencePoints: 365473,
-      playTime: "156h10p35s",
-      avatar: "https://tse4.mm.bing.net/th/id/OIP.ByOuElmqwpS6F9ScgWwBvAHaHa"
-    },
-    {
-      rank: 2,
-      name: "Trần Văn A",
-      experiencePoints: 320000,
-      playTime: "140h20p10s",
-      avatar: "https://tse4.mm.bing.net/th/id/OIP.ByOuElmqwpS6F9ScgWwBvAHaHa"
-    },
-    {
-      rank: 3,
-      name: "Lê Thị B",
-      experiencePoints: 280000,
-      playTime: "120h15p25s",
-      avatar: "https://tse4.mm.bing.net/th/id/OIP.ByOuElmqwpS6F9ScgWwBvAHaHa"
-    },
-    {
-      rank: 4,
-      name: "Lê Thị B",
-      experiencePoints: 280000,
-      playTime: "120h15p25s",
-      avatar: "https://tse4.mm.bing.net/th/id/OIP.ByOuElmqwpS6F9ScgWwBvAHaHa"
-    },
-    {
-      rank: 5,
-      name: "Lê Thị B",
-      experiencePoints: 280000,
-      playTime: "120h15p25s",
-      avatar: "https://tse4.mm.bing.net/th/id/OIP.ByOuElmqwpS6F9ScgWwBvAHaHa"
-    },
-    {
-      rank: 6,
-      name: "Lê Thị B",
-      experiencePoints: 280000,
-      playTime: "120h15p25s",
-      avatar: "https://tse4.mm.bing.net/th/id/OIP.ByOuElmqwpS6F9ScgWwBvAHaHa"
-    },
-    {
-      rank: 7,
-      name: "Lê Thị B",
-      experiencePoints: 280000,
-      playTime: "120h15p25s",
-      avatar: "https://tse4.mm.bing.net/th/id/OIP.ByOuElmqwpS6F9ScgWwBvAHaHa"
-    },
-  ];
+  useEffect(() => {
+    const loadPlayers = async () => {
+      const playersData: Player[] = [
+        {
+          name: "Nguyễn Lâm Phong",
+          experiencePoints: 365473,
+          playTime: "156h10p35s",
+          avatar: await generateAvatar(),
+        },
+        {
+          name: "Trần Văn A",
+          experiencePoints: 390000,
+          playTime: "140h20p10s",
+          avatar: await generateAvatar(),
+        },
+        {
+          name: "Trần Văn A",
+          experiencePoints: 350000,
+          playTime: "140h20p10s",
+          avatar: await generateAvatar(),
+        },
+        {
+          name: "Trần Văn A",
+          experiencePoints: 330000,
+          playTime: "140h20p10s",
+          avatar: await generateAvatar(),
+        },
+        {
+          name: "Trần Văn A",
+          experiencePoints: 330000,
+          playTime: "140h20p10s",
+          avatar: await generateAvatar(),
+        },
+        {
+          name: "Trần Văn A",
+          experiencePoints: 330000,
+          playTime: "140h20p10s",
+          avatar: await generateAvatar(),
+        },
+        {
+          name: "Trần Văn A",
+          experiencePoints: 330000,
+          playTime: "140h20p10s",
+          avatar: await generateAvatar(),
+        },
+      ];
+  
+      setPlayers(playersData);
+    };
+  
+    loadPlayers();
+  }, []);
+  
 
   const handleViewAll = () => {
     console.log("Xem tất cả leaderboard");
@@ -149,7 +159,7 @@ export default function Home() {
             
             <div className="flex flex-col w-[28%] gap-6">
               <LeaderBoard 
-                players={mockPlayers} 
+                players={players} 
                 onViewAll={handleViewAll}
               />
               <div className="bg-white shadow-[0_6px_16.3px_rgba(0,0,0,0.5)] rounded-[5px]">
@@ -169,6 +179,8 @@ export default function Home() {
                   height={999}
                   className="rounded-[5px]"
                 />
+                <img src="https://i.waifu.pics/Tj6Wzwo.png" />
+
               </div>
             </div>
           </div>

@@ -2,8 +2,9 @@ import { Player } from "./types";
 
 export type PlayerCardProps = {
     player: Player;
+    rank: number
   };
-export default function PlayerCard({ player }: PlayerCardProps) {
+export default function PlayerCard({ player,rank}: PlayerCardProps) {
     const getRankEmoji = (rank: number): string => {
       switch (rank) {
         case 1: return "🥇";
@@ -15,7 +16,7 @@ export default function PlayerCard({ player }: PlayerCardProps) {
   
     return (
       <div className="flex gap-2 items-center justify-center mx-3 border-b-1 border-orange-400 pb-2">
-        <span className="text-3xl">{getRankEmoji(player.rank)}</span>
+        <span className="text-3xl">{getRankEmoji(rank)}</span>
         
         <div>
           <div className="text-red-500 font-bold text-[16px]">{player.name}</div>
@@ -30,9 +31,7 @@ export default function PlayerCard({ player }: PlayerCardProps) {
         <img
           src={player.avatar}
           alt={player.name}
-          width={60}
-          height={60}
-          className="object-cover"
+          className="w-[60px] h-[60px] object-cover "
         />
       </div>
     );

@@ -1,5 +1,5 @@
 export type Player = {
-    rank: number;
+
     name: string;
     experiencePoints: number;
     playTime: string;
