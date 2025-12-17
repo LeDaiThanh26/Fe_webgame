@@ -1,7 +1,8 @@
-import React from 'react';
 import CommentsSection from '../ui/Detail/CommentsSection';
 import SimilarGames from '../ui/Detail/SimilarGames';
 import Favourites from '../ui/Detail/Favourite';
+import GamePlayTracker from '../ui/GamePlayTracker';
+
 async function getGameData(slug: string) {
     const res = await fetch(`http://localhost:5000/api/games/${slug}`, {
         cache: 'no-store'
@@ -12,6 +13,7 @@ async function getGameData(slug: string) {
 }
 
 const GameDetails = async ({ params }: { params: { slug: string } }) => {
+    
     const { slug } = await params;
     console.log("Slug nhận được từ URL:", slug);
     
@@ -120,7 +122,7 @@ const GameDetails = async ({ params }: { params: { slug: string } }) => {
     return (
         <div className="details-body">
             <style dangerouslySetInnerHTML={{ __html: cssStyles }} />
-
+            <GamePlayTracker />
             <div className="container">
                 <div className="card">
                     <div className="header-row">

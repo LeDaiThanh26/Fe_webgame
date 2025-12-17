@@ -20,3 +20,12 @@ export type Player = {
     color: string;
     games: Game[];
   };
+
+  export type User ={
+    id: string;
+    name: string;
+    email: string;
+    experiencePoints: number;
+    playTime: number
+  }
+  

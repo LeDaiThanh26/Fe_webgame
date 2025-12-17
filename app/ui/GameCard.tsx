@@ -20,38 +20,11 @@ const GameCard = forwardRef<HTMLDivElement, Props>(
     const router = useRouter();
 
     const handleClick = async () => {
-      // Navigate immediately
-      router.push(slug);
-
-      // Call API if gameId and token exist
-      try {
-        const token = localStorage.getItem('token');
-        if (token && gameId) {
-          // 1. Get User ID
-          const userRes = await fetch('http://localhost:5000/api/users/me', {
-            headers: { 'Authorization': `Bearer ${token}` }
-          });
-
-          if (userRes.ok) {
-            const userData = await userRes.json();
-            const userId = userData._id;
-
-            // 2. Add to Recents
-            await fetch('http://localhost:5000/api/recents', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                userId: userId,
-                gameId: gameId
-              })
-            });
-          }
-        }
-      } catch (error) {
-        console.error("Error updating recent games:", error);
+      localStorage.setItem('gameStartTime', Date.now().toString());
+      if (gameId) {
+        localStorage.setItem('currentGameId', gameId);
       }
+      router.push(slug);
     };
 
     return (

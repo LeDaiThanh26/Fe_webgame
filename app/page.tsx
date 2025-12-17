@@ -5,6 +5,7 @@ import { Player, Category } from "./ui/types";
 import LeaderBoard from "./ui/LeaderBoard";
 import Image from "next/image";
 import { useState, useEffect } from "react";
+import { User } from "./ui/types";
 
 export async function generateAvatar(): Promise<string> {
   const res = await fetch("https://api.waifu.pics/nsfw/waifu");
@@ -61,60 +62,28 @@ export default function Home() {
         setCategories([]);
         setLoading(false);
       });
+       // Fetch all users
+       const fetchUsers = async () => {
+        try {
+          const res = await fetch('http://localhost:5000/api/users');
+          const data = await res.json();
+          const userswithAvartar = await Promise.all(
+            data.map(async(user: User)=>({
+              ...user,
+              avatar : await generateAvatar()
+            }))
+          );
+          console.log(userswithAvartar)
+          setPlayers(userswithAvartar); 
+        } catch (err) {
+          console.error(err);
+        }
+      }; 
+      fetchUsers();
+      
   }, []);
   
-  useEffect(() => {
-    const loadPlayers = async () => {
-      const playersData: Player[] = [
-        {
-          name: "Nguyễn Lâm Phong",
-          experiencePoints: 365473,
-          playTime: "156h10p35s",
-          avatar: await generateAvatar(),
-        },
-        {
-          name: "Trần Văn A",
-          experiencePoints: 390000,
-          playTime: "140h20p10s",
-          avatar: await generateAvatar(),
-        },
-        {
-          name: "Trần Văn A",
-          experiencePoints: 350000,
-          playTime: "140h20p10s",
-          avatar: await generateAvatar(),
-        },
-        {
-          name: "Trần Văn A",
-          experiencePoints: 330000,
-          playTime: "140h20p10s",
-          avatar: await generateAvatar(),
-        },
-        {
-          name: "Trần Văn A",
-          experiencePoints: 330000,
-          playTime: "140h20p10s",
-          avatar: await generateAvatar(),
-        },
-        {
-          name: "Trần Văn A",
-          experiencePoints: 330000,
-          playTime: "140h20p10s",
-          avatar: await generateAvatar(),
-        },
-        {
-          name: "Trần Văn A",
-          experiencePoints: 330000,
-          playTime: "140h20p10s",
-          avatar: await generateAvatar(),
-        },
-      ];
-  
-      setPlayers(playersData);
-    };
-  
-    loadPlayers();
-  }, []);
+ 
   
 
   const handleViewAll = () => {
@@ -179,7 +148,6 @@ export default function Home() {
                   height={999}
                   className="rounded-[5px]"
                 />
-                <img src="https://i.waifu.pics/Tj6Wzwo.png" />
 
               </div>
             </div>
