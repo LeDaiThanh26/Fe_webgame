@@ -30,7 +30,7 @@ const GameDetails = async ({ params }: { params: { slug: string } }) => {
             --green-btn: #4CAF50;
         }
         .details-body { background-color: var(--primary-bg); color: var(--text-color); padding: 20px; display: flex; justify-content: center; min-height: 100vh; }
-        .container { width: 100%; max-width: 1000px; display: flex; flex-direction: column; gap: 20px; }
+        .container { width: 1200px; max-width: 1000px; display: flex; flex-direction: column; gap: 20px; }
         .card { background-color: var(--white); border-radius: 8px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
         .header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         .header-row h1 { font-size: 24px; font-weight: bold; }

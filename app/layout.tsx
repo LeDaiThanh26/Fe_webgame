@@ -1,6 +1,6 @@
 import "./styles/globals.css"
-import Footer from "./ui/footer"
-import Header from "./ui/header"
+import ClientShell from "./ui/ClientShell"
+
 export default function RootLayout({
   children,
 }: {
@@ -9,12 +9,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="flex flex-col min-h-screen">
-          <Header/>
-          <div className="flex-grow container mx-auto h-full w-full flex items-center justify-center p-1.25">
-            {children}
-          </div>
-          <Footer />
-        </body>
+        <ClientShell>{children}</ClientShell>
+      </body>
     </html>
-  );
+  )
 }
