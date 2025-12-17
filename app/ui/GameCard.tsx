@@ -20,7 +20,6 @@ const GameCard = forwardRef<HTMLDivElement, Props>(
     const router = useRouter();
 
     const handleClick = async () => {
-      localStorage.setItem('gameStartTime', Date.now().toString());
       if (gameId) {
         localStorage.setItem('currentGameId', gameId);
       }

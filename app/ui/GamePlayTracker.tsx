@@ -4,21 +4,25 @@ import { useEffect, useRef } from "react";
 
 export default function GamePlayTracker() {
   const startTimeRef = useRef<number>(Date.now());
-  const lastSentRef = useRef<number>(0);
+  const hasSentRef = useRef(false);
 
   useEffect(() => {
     startTimeRef.current = Date.now();
+    hasSentRef.current = false;
 
-    // Gửi mỗi 30 giây 1 lần
-    const interval = setInterval(async () => {
+    const endSession = async () => {
+      // Chỉ gửi 1 lần
+      if (hasSentRef.current) return;
+      hasSentRef.current = true;
+
       const token = localStorage.getItem("token");
       const gameId = localStorage.getItem("currentGameId");
       if (!token || !gameId) return;
 
       const playSeconds = Math.floor((Date.now() - startTimeRef.current) / 1000);
-      const newSeconds = playSeconds - lastSentRef.current;
-
-      if (newSeconds < 30) return; // Chỉ gửi khi đủ 30s mới
+      
+      // Bỏ qua nếu dưới 3 giây (click nhầm)
+      if (playSeconds < 3) return;
 
       try {
         const userRes = await fetch("http://localhost:5000/api/users/me", {
@@ -27,25 +31,38 @@ export default function GamePlayTracker() {
         if (!userRes.ok) return;
         const user = await userRes.json();
 
-        // Gửi số giây mới tích lũy
-        await fetch("http://localhost:5000/api/users/addpoint", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            userId: user._id,
-            playSeconds: newSeconds,
-          }),
-        });
+        // Dùng sendBeacon để đảm bảo gửi được khi reload/back
+        navigator.sendBeacon(
+          "http://localhost:5000/api/recents",
+          new Blob([JSON.stringify({ userId: user._id, gameId })], {
+            type: "application/json",
+          })
+        );
 
-        lastSentRef.current = playSeconds;
-        console.log("✅ Gửi:", newSeconds, "giây");
+        navigator.sendBeacon(
+          "http://localhost:5000/api/users/addpoint",
+          new Blob([JSON.stringify({ userId: user._id, playSeconds })], {
+            type: "application/json",
+          })
+        );
+
+        console.log("✅ Đã gửi:", playSeconds, "giây");
       } catch (err) {
         console.error(err);
       }
-    }, 30000); // Mỗi 30 giây
+    };
 
-    return () => clearInterval(interval);
-  }, []);
+    // Khi reload/back/đóng tab
+    window.addEventListener("beforeunload", endSession);
+    window.addEventListener("pagehide", endSession);
+
+    // Khi component unmount (rời trang game)
+    return () => {
+      endSession();
+      window.removeEventListener("beforeunload", endSession);
+      window.removeEventListener("pagehide", endSession);
+    };
+  }, []); // Chỉ chạy 1 lần khi mount
 
   return null;
 }
