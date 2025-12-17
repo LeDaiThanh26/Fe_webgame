@@ -1,7 +1,10 @@
 "use client"
 import { useState, useEffect } from 'react'
-import { Search, ChevronLeft, X } from "lucide-react"
+import { Search, ChevronLeft, X,Gamepad2, Clock } from "lucide-react"
 import GameCard from "./GameCard"
+import { User } from './types'
+import formatPlayTime from './formatPlayTime'
+import { generateAvatar } from "../page";
 
 type FavouriteGame = {
     _id: string;
@@ -14,11 +17,15 @@ type FavouriteGame = {
 export default function Sidebar({
     isMobile,
     isSearchOpen,
-    setIsSearchOpen
+    setIsSearchOpen,
+    isProfile = false,
+    setIsProfile,
 }: {
     isMobile: boolean,
     isSearchOpen: boolean,
-    setIsSearchOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    setIsSearchOpen: React.Dispatch<React.SetStateAction<boolean>>,
+    isProfile: boolean,
+    setIsProfile:React.Dispatch<React.SetStateAction<boolean>>,
 }
 
 ) {
@@ -27,7 +34,18 @@ export default function Sidebar({
     const [recommendedGames, setRecommendedGames] = useState<FavouriteGame[]>([])
     const [searchResults, setSearchResults] = useState<FavouriteGame[]>([])
     const [isSearching, setIsSearching] = useState(false)
+    const [user, setUser] = useState<User>()
+    const [totalGame, setTotalGame]=useState(0)
+    const [avatarUrl, setAvatarUrl] = useState<string>('');
 
+    useEffect(() => {
+    const loadAvatar = async () => {
+      const url = await generateAvatar(); // Chờ lấy URL từ Promise
+      setAvatarUrl(url);
+    };
+    
+    loadAvatar();
+  }, []);
     // ---- KHOÁ SCROLL KHI MỞ SIDEBAR ----
     useEffect(() => {
         document.body.style.overflow = isSearchOpen ? "hidden" : "auto"
@@ -50,7 +68,7 @@ export default function Sidebar({
                 if (!userRes.ok) return
 
                 const user = await userRes.json()
-
+                setUser(user)
                 // [1] Lấy danh sách favourite
                 try {
                     const favRes = await fetch(`http://localhost:5000/api/favourites/user/${user._id}`)
@@ -81,7 +99,7 @@ export default function Sidebar({
                     if (recentsRes.ok) {
                         const recentsData = await recentsRes.json()
                         console.log("Recents API raw response:", recentsData);
-
+                        setTotalGame(recentsData.length)
                         // Xử lý trường hợp API trả về mảng trực tiếp hoặc object { data: [...] }
                         const rawList = Array.isArray(recentsData) ? recentsData : (recentsData.data || []);
 
@@ -196,21 +214,60 @@ export default function Sidebar({
                 <div
                     className="fixed inset-0 bg-black/60 z-[90]"
                     onClick={() => {
-                        setIsSearchOpen(false)
+                        setIsSearchOpen(false),
+                        setIsProfile(false),
                         setSearchQuery("")
                     }}
                 />
             )}
             <div
-                className={`fixed top-0 left-0 h-full bg-[#00ffee] shadow-2xl z-[100] 
+                className={`fixed top-0 left-0 h-full ${isProfile?'bg-[#FFC0CB]':'bg-[#00ffee]'}  shadow-2xl z-[100] 
                     transition-transform duration-300 ease-in-out 
                     ${isSearchOpen ? 'translate-x-0' : '-translate-x-full'}
                     ${isMobile ? 'w-full' : 'w-[700px]'}
                 `}
             >
                 <div className="flex flex-col h-full p-6 overflow-y-auto no-scrollbar">
-                    {/* Search box */}
-                    <div className="mb-8">
+                    {isProfile?
+                    <div>
+                        <div className="text-[#002b50] mr-6 flex flex-col bg-white rounded-2xl shadow-[0px_7px_10px_4px_#5d6b844d]">
+                            
+
+                            {/* Thông tin user */}
+                            <div className='flex p-5 gap-5 flex-col border-b border-gray-300'>
+                                <div className='flex gap-5 items-center'>
+                                    <img
+                                        src={avatarUrl}
+                                        className='h-[60px] w-[60px]'
+                                    />
+                                    <div className='flex flex-col'>
+                                        <h1 className="text-[24px] font-bold">{user?.name}</h1>
+                                        <h2 className='text-[13px] font-[400] pb-2'>
+                                            {user?.email}
+                                        </h2>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Thông tin game */}
+                            <div className='flex justify-between w-full'>
+                                <div className="flex gap-2 p-5 w-[50%] items-center border-r border-gray-300">
+                                    <Gamepad2 size={24} className='mb-1 mr-1' strokeWidth={3}/>
+                                    <h1 className="text-[20px] font-bold">{totalGame}</h1>
+                                    <h3 className='text-[13px] font-[600] mt-1'>Game đã chơi</h3>
+                                </div>
+                                <div className="flex gap-2 p-5 w-[50%] items-center ">
+                                    <Clock size={24} className='mb-1' strokeWidth={3}/>
+                                    <h1 className="text-[20px] font-bold">{formatPlayTime(Number(user?.playTime))}</h1>
+                                    <h3 className='text-[13px] font-[600] mt-1'>Tổng thời gian chơi</h3>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                     
+                    :
+                     <div className="mb-8">
                         <div className="relative bg-white rounded-full shadow-lg mr-6">
                             <div className="absolute left-5 top-1/2 -translate-y-1/2">
                                 <div className="w-8 h-8 bg-[#002B50] rounded-full flex items-center justify-center">
@@ -231,13 +288,16 @@ export default function Sidebar({
                                 {searchQuery ? <X size={24} /> : <Search size={24} />}
                             </button>
                         </div>
-                    </div>
+                     </div>
+                    }
+                   
 
                     {isSearchOpen && (
                         <button
                             onClick={() => {
                                 setIsSearchOpen(false)
                                 setSearchQuery("")
+                                setIsProfile(false)
                             }}
                             className="absolute cursor-pointer top-6 -right-7 p-[14px] bg-white rounded-full hover:scale-110 transition-transform duration-200 shadow-md"
                         >
@@ -276,6 +336,7 @@ export default function Sidebar({
                     ) : (
                         <>
                             {/* Game đề xuất (random 12) - Moved to Top */}
+                            {isProfile?"":
                             <div>
                                 <h2 className="text-2xl font-bold text-[#002B50] mb-4">
                                     Game đề xuất
@@ -300,7 +361,7 @@ export default function Sidebar({
                                     </div>
                                 )}
                             </div>
-
+                            }
                             {/* Recently Played - Moved to Second */}
                             <div>
                                 <h2 className="text-2xl mt-10 font-bold text-[#002B50] mb-4">Game vừa chơi</h2>

@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 export default function Header() {
   const [windowWidth, setWindowWidth] = useState(1860)
   const [isSearchOpen, setIsSearchOpen] = useState(false)
+  const [isProfile, setIsProfile] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   
@@ -54,7 +55,10 @@ export default function Header() {
     }
     fetchUser()
   }, [])
-
+  const handleClickName=()=>{
+    setIsProfile(true),
+    setIsSearchOpen(true)
+  }
   const handleLogout = () => {
     localStorage.removeItem('token')
     setUser(null)
@@ -103,7 +107,9 @@ export default function Header() {
             {/* LOGIC HIỂN THỊ USER HOẶC NÚT ĐĂNG NHẬP */}
             {user ? (
               <div className="flex items-center gap-3">
-                <span className={`font-bold ${isScrolled ? "text-white" : "text-[#002B50]"}`}>
+                <span className={`cursor-pointer font-bold ${isScrolled ? "text-white" : "text-[#002B50]"}`}
+                              onClick={() => handleClickName()}
+                >
                   Hi, {user.name}
                 </span>
                 <button
@@ -129,7 +135,7 @@ export default function Header() {
         </div>
       </header>
 
-      <Sidebar isSearchOpen={isSearchOpen} isMobile={isMobile} setIsSearchOpen={setIsSearchOpen} />
+      <Sidebar isSearchOpen={isSearchOpen} isMobile={isMobile} setIsSearchOpen={setIsSearchOpen} isProfile={isProfile} setIsProfile={setIsProfile}/>
       <AuthModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </>
   )

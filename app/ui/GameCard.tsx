@@ -3,7 +3,6 @@
 import { useState, forwardRef } from "react";
 import { useRouter } from "next/navigation";
 import { FaRedo } from 'react-icons/fa';
-
 type Props = {
   image: string;
   video: string;

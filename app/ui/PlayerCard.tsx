@@ -1,4 +1,5 @@
 import { Player } from "./types";
+import formatPlayTime from "./formatPlayTime";
 
 export type PlayerCardProps = {
     player: Player;
@@ -24,21 +25,8 @@ export default function PlayerCard({ player,rank}: PlayerCardProps) {
             Điểm kinh nghiệm: {player.experiencePoints.toLocaleString()}
           </div>
           <div className="font-bold text-[11px]">
-            Tổng thời gian chơi: {(() => {
-              const totalSeconds = Number(player.playTime) || 0;
-              const hours = Math.floor(totalSeconds / 3600);
-              const minutes = Math.floor((totalSeconds % 3600) / 60);
-              const seconds = totalSeconds % 60;
-              
-              if (hours > 0) {
-                return `${hours}h ${minutes}m ${seconds}s`;
-              } else if (minutes > 0) {
-                return `${minutes}m ${seconds}s`;
-              } else {
-                return `${seconds}s`;
-              }
-            })()}
-          </div>
+             Tổng thời gian chơi: {formatPlayTime(Number(player.playTime))}
+         </div>
         </div>
         
         <img
