@@ -117,6 +117,7 @@ export default function Sidebar({
                                 video: g.video,
                                 slug: g.slug,
                             }))
+                            .slice(0, 12);
 
                         console.log("Processed recent games list:", games);
                         setRecentGames(games)
