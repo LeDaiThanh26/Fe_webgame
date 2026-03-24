@@ -1,72 +1,83 @@
-"use client";
-
-import GameCategoriesSection from "@/app/ui/GameCategoriesSection";
-import CategorySection from "@/app/ui/CategorySection";
-import LeaderBoard from "@/app/ui/LeaderBoard";
+import { Suspense } from "react";
 import Image from "next/image";
-import { useHomeData } from "@/app/hooks/useHomeData";
+
+import { fetchAllCategories, fetchGamesByCategory, fetchRandomGames } from "@/services/game.service";
+import { fetchAllUsers } from "@/services/auth.service";
+import { generateAvatar } from "@/lib/avatar";
+
+import GameCategoriesSection from "@/components/features/home/categories_section/GameCategoriesSection";
+import CategorySection from "@/components/features/home/category_section/CategorySection";
+import LeaderBoard from "@/components/features/home/leaderboard/LeaderBoard";
+
+import GameCategoriesSectionSkeleton from "@/components/ui/skeleton/GameCategoriesSectionSkeleton";
+import CategorySectionSkeleton from "@/components/ui/skeleton/CategorySectionSkeleton";
+import LeaderBoardSkeleton from "@/components/ui/skeleton/LeaderBoardSkeleton";
+
+
+async function Categories() {
+  const categories = await fetchAllCategories();
+  return <GameCategoriesSection title="Online Games at GameZone" categories={categories} />;
+}
+
+async function GamesHayNhat() {
+  const games = await fetchRandomGames();
+  return <CategorySection bannerSrc="/banner_gamehaynhat.png" altText="Game Hay Nhất" games={games} isGameHayNhat />;
+}
+
+async function GamesBanSung() {
+  const games = await fetchGamesByCategory("shooter");
+  return <CategorySection bannerSrc="/banner_gamebansung.png" altText="Game bắn súng" games={games} />;
+}
+
+async function GamesDuaXe() {
+  const games = await fetchGamesByCategory("racing");
+  return <CategorySection bannerSrc="/banner_gameduaxe.png" altText="Game đua xe" games={games} />;
+}
+
+async function Leaderboard() {
+  const users = await fetchAllUsers();
+  const players = await Promise.all(users.map(async (u) => ({ ...u, avatar: await generateAvatar() })));
+  return <LeaderBoard players={players} />;
+}
+
 
 export default function Home() {
-  const { games, shootingGames, drivingGames, categories, players, loading } = useHomeData();
-
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center py-10">
-        <p>Đang tải dữ liệu...</p>
-      </div>
-    );
-  }
-
   return (
     <div className="flex flex-col gap-5 w-[1230px]">
-      <GameCategoriesSection
-        title="Online Games at GameZone"
-        categories={categories}
-      />
+
+      <Suspense fallback={<GameCategoriesSectionSkeleton rowCount={6} />}>
+        <Categories />
+      </Suspense>
 
       <div className="flex w-full gap-7">
-        {/* Left: Game sections */}
+
         <div className="flex flex-col w-[72%] gap-7">
-          <CategorySection
-            bannerSrc="/banner_gamehaynhat.png"
-            altText="Game Hay Nhất"
-            games={games}
-            isGameHayNhat={true}
-          />
-          <CategorySection
-            bannerSrc="/banner_gamebansung.png"
-            altText="Game bắn súng"
-            games={shootingGames}
-          />
-          <CategorySection
-            bannerSrc="/banner_gameduaxe.png"
-            altText="Game đua xe"
-            games={drivingGames}
-          />
+          <Suspense fallback={<CategorySectionSkeleton />}>
+            <GamesHayNhat />
+          </Suspense>
+
+          <Suspense fallback={<CategorySectionSkeleton />}>
+            <GamesBanSung />
+          </Suspense>
+
+          <Suspense fallback={<CategorySectionSkeleton />}>
+            <GamesDuaXe />
+          </Suspense>
         </div>
 
-        {/* Right: Leaderboard + Ads */}
         <div className="flex flex-col w-[28%] gap-6">
-          <LeaderBoard players={players} />
+          <Suspense fallback={<LeaderBoardSkeleton />}>
+            <Leaderboard />
+          </Suspense>
+
           <div className="bg-white shadow-[0_6px_16.3px_rgba(0,0,0,0.5)] rounded-[5px]">
-            <Image
-              src="/banner_quangcao3.png"
-              alt="Quảng cáo game"
-              width={999}
-              height={999}
-              className="rounded-[5px]"
-            />
+            <Image src="/banner_quangcao3.png" alt="Quảng cáo" width={999} height={999} className="rounded-[5px]" />
           </div>
           <div className="bg-white shadow-[0_6px_16.3px_rgba(0,0,0,0.5)] rounded-[5px]">
-            <Image
-              src="/banner_quangcao4.jpg"
-              alt="Quảng cáo game"
-              width={999}
-              height={999}
-              className="rounded-[5px]"
-            />
+            <Image src="/banner_quangcao4.jpg" alt="Quảng cáo" width={999} height={999} className="rounded-[5px]" />
           </div>
         </div>
+
       </div>
     </div>
   );
