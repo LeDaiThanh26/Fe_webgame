@@ -2,8 +2,6 @@ import { Suspense } from "react";
 import Image from "next/image";
 
 import { fetchAllCategories, fetchGamesByCategory, fetchRandomGames } from "@/services/game.service";
-import { fetchAllUsers } from "@/services/auth.service";
-import { generateAvatar } from "@/lib/avatar";
 
 import GameCategoriesSection from "@/components/features/home/categories_section/GameCategoriesSection";
 import CategorySection from "@/components/features/home/category_section/CategorySection";
@@ -11,7 +9,6 @@ import LeaderBoard from "@/components/features/home/leaderboard/LeaderBoard";
 
 import GameCategoriesSectionSkeleton from "@/components/ui/skeleton/GameCategoriesSectionSkeleton";
 import CategorySectionSkeleton from "@/components/ui/skeleton/CategorySectionSkeleton";
-import LeaderBoardSkeleton from "@/components/ui/skeleton/LeaderBoardSkeleton";
 
 
 async function Categories() {
@@ -32,12 +29,6 @@ async function GamesBanSung() {
 async function GamesDuaXe() {
   const games = await fetchGamesByCategory("racing");
   return <CategorySection bannerSrc="/banner_gameduaxe.png" altText="Game đua xe" games={games} />;
-}
-
-async function Leaderboard() {
-  const users = await fetchAllUsers();
-  const players = await Promise.all(users.map(async (u) => ({ ...u, avatar: await generateAvatar() })));
-  return <LeaderBoard players={players} />;
 }
 
 
@@ -66,9 +57,7 @@ export default function Home() {
         </div>
 
         <div className="flex flex-col w-[28%] gap-6">
-          <Suspense fallback={<LeaderBoardSkeleton />}>
-            <Leaderboard />
-          </Suspense>
+          <LeaderBoard />
 
           <div className="bg-white shadow-[0_6px_16.3px_rgba(0,0,0,0.5)] rounded-[5px]">
             <Image src="/banner_quangcao3.png" alt="Quảng cáo" width={999} height={999} className="rounded-[5px]" />

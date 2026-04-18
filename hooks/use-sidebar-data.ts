@@ -3,8 +3,9 @@
 import { useState, useEffect } from "react";
 import { fetchRandomGames, fetchAllGames } from "@/services/game.service";
 import { fetchCurrentUser, fetchFavouriteGames, fetchRecentGames } from "@/services/auth.service";
-import { generateAvatar } from "@/lib/avatar";
 import type { User, FavouriteGame } from "@/types";
+
+const FALLBACK_AVATAR = "https://placehold.co/60/0095BE/fff?text=U";
 
 export function useSidebarData() {
   const [user, setUser] = useState<User | undefined>();
@@ -15,7 +16,6 @@ export function useSidebarData() {
   const [totalGame, setTotalGame] = useState(0);
 
   useEffect(() => {
-    generateAvatar().then(setAvatarUrl);
     fetchRandomGames().then(setRecommendedGames);
   }, []);
 
@@ -23,10 +23,15 @@ export function useSidebarData() {
     const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
     if (!token) return;
     let cancelled = false;
+
     const load = async () => {
       const userData = await fetchCurrentUser(token);
       if (!userData || cancelled) return;
+
       setUser(userData);
+      // Lấy avatar từ DB — đã được lưu lúc đăng ký
+      setAvatarUrl(userData.avatar || FALLBACK_AVATAR);
+
       const userId = userData._id!;
       const [favs, recents] = await Promise.all([
         fetchFavouriteGames(userId),
@@ -37,6 +42,7 @@ export function useSidebarData() {
       setRecentGames(recents);
       setTotalGame(recents.length);
     };
+
     load();
     return () => { cancelled = true; };
   }, []);

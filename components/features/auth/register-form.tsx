@@ -34,8 +34,8 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onClose, onToggleMode }) =>
       } else {
         alert(data.message || "Có lỗi xảy ra");
       }
-    } catch {
-      alert("Không thể kết nối tới server");
+    } catch (error) {
+      alert(error);
     } finally {
       setLoading(false);
     }

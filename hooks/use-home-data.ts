@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { fetchAllCategories, fetchGamesByCategory, fetchRandomGames } from "@/services/game.service";
 import { fetchAllUsers } from "@/services/auth.service";
-import { generateAvatar } from "@/lib/avatar";
 import type { Category, Player } from "@/types";
 
 export function useHomeData() {
@@ -30,10 +29,13 @@ export function useHomeData() {
         setGames(randomGames);
         setShootingGames(shooting);
         setDrivingGames(driving);
-        const withAvatars = await Promise.all(
-          users.map(async (u) => ({ ...u, avatar: await generateAvatar() }))
-        );
-        if (!cancelled) setPlayers(withAvatars);
+        const mappedPlayers: Player[] = users.map((u) => ({
+          name: u.name,
+          experiencePoints: u.experiencePoints ?? 0,
+          playTime: u.playTime ?? 0,
+          avatar: u.avatar ?? "",
+        }));
+        if (!cancelled) setPlayers(mappedPlayers);
       } catch (err) {
         console.error("useHomeData error:", err);
       } finally {

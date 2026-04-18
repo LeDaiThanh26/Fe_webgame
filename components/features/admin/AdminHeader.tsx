@@ -15,6 +15,7 @@ export default function AdminHeader() {
     const [admin, setAdmin] = useState<AdminInfo | null>(null)
     const [isScrolled, setIsScrolled] = useState(false)
     const router = useRouter()
+    const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
 
     useEffect(() => {
         const onScroll = () => setIsScrolled(window.scrollY > 20)
@@ -32,7 +33,7 @@ export default function AdminHeader() {
             }
 
             try {
-                const res = await fetch("http://localhost:5000/api/admin/me", {
+                const res = await fetch(`${API_BASE}/admin/me`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },

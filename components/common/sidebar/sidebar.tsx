@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { ChevronLeft } from "lucide-react";
+import { usePathname } from "next/navigation";
 import SidebarProfile from "./sidebar-profile";
 import SidebarSearch from "./sidebar-search";
 import { useSidebarData } from "@/hooks/use-sidebar-data";
@@ -16,10 +17,14 @@ type SidebarProps = {
 
 export default function Sidebar({ isMobile, isSearchOpen, setIsSearchOpen, isProfile = false, setIsProfile }: SidebarProps) {
   const { user, avatarUrl, favouriteGames, recentGames, recommendedGames, totalGame, searchGames } = useSidebarData();
-
+  const pathname = usePathname();
   useEffect(() => {
     document.body.style.overflow = isSearchOpen ? "hidden" : "auto";
   }, [isSearchOpen]);
+
+  useEffect(() => {
+    closeSidebar();
+  }, [pathname]);
 
   const closeSidebar = () => {
     setIsSearchOpen(false);
