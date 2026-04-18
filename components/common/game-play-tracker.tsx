@@ -3,37 +3,61 @@
 import { useEffect, useRef } from "react";
 import API_BASE from "@/services/api";
 
-/**
- * Component theo dõi thời gian chơi game và gửi về server
- * Đặt trong trang game play, không render UI
- */
 export default function GamePlayTracker() {
   const startTimeRef = useRef<number>(Date.now());
   const hasSentRef = useRef(false);
+  const userIdRef = useRef<string | null>(null);
 
   useEffect(() => {
     startTimeRef.current = Date.now();
     hasSentRef.current = false;
 
-    const endSession = async () => {
-      if (hasSentRef.current) return;
-      hasSentRef.current = true;
+    // Prefetch userId lúc mount trước
+    const prefetchUser = async () => {
       const token = localStorage.getItem("token");
-      const gameId = localStorage.getItem("currentGameId");
-      if (!token || !gameId) return;
-      const playSeconds = Math.floor((Date.now() - startTimeRef.current) / 1000);
-      if (playSeconds < 3) return;
+      if (!token) return;
       try {
-        const userRes = await fetch(`${API_BASE}/users/me`, {
+        const res = await fetch(`${API_BASE}/users/me`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        if (!userRes.ok) return;
-        const user = await userRes.json();
-        navigator.sendBeacon(`${API_BASE}/recents`, new Blob([JSON.stringify({ userId: user._id, gameId })], { type: "application/json" }));
-        navigator.sendBeacon(`${API_BASE}/users/addpoint`, new Blob([JSON.stringify({ userId: user._id, playSeconds })], { type: "application/json" }));
+        if (res.ok) {
+          const user = await res.json();
+          userIdRef.current = user._id;
+        }
       } catch (err) {
-        console.error("GamePlayTracker error:", err);
+        console.error("prefetch error:", err);
       }
+    };
+
+    prefetchUser();
+
+    const endSession = () => {
+      if (hasSentRef.current) return;
+      hasSentRef.current = true;
+
+      const gameId = localStorage.getItem("currentGameId");
+      const userId = userIdRef.current;
+      if (!userId || !gameId) return;
+
+      const playSeconds = Math.floor(
+        (Date.now() - startTimeRef.current) / 1000
+      );
+      if (playSeconds < 3) return;
+
+      // keepalive: true = browser tự đảm bảo gửi dù page đóng
+      fetch(`${API_BASE}/recents`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId, gameId }),
+        keepalive: true, // ← chìa khóa
+      }).catch(() => { });
+
+      fetch(`${API_BASE}/users/addpoint`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId, playSeconds }),
+        keepalive: true, // ← chìa khóa
+      }).catch(() => { });
     };
 
     window.addEventListener("beforeunload", endSession);
